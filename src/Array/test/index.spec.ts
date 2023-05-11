@@ -300,7 +300,7 @@ describe('array', () => {
     });
   });
 
-  describe('array.fill', () => {
+  describe('array.fill can change origin Array', () => {
     const base = [1, 2, 3, 4, 5];
     test('value any, start default, end default length', () => {
       const result = [...base].fill(6);
