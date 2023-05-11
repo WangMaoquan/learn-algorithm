@@ -184,4 +184,6 @@ testArr.concat([1, 2]); // NotAnArray { '0': 0, '1': 1, '2': 2, '3': 1, '4': 2, 
  * 4. copyWithin(target, start, end) 方法浅复制数组的一部分到同一数组中的另一个位置，并返回它，不会改变原数组的长度
  *      target 填充开始位置, start 复制元素开始位置(包括start位置的元素), end 为结束位置(不包括end位置元素)
  *      可以理解为 [start, end) 区间的元素 从 target位置开始填充
+ *
+ * 5. entries 返回 数组迭代器对象 对象包含数组中每个索引的键/值对
  */

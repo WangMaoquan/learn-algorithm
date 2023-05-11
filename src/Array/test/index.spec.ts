@@ -205,4 +205,54 @@ describe('array', () => {
       });
     });
   });
+
+  describe('array.entries', () => {
+    test('return a arrIterator', () => {
+      const arr = [1, 2, 3, 4, 5];
+      const arrIterator = arr.entries();
+
+      expect(arrIterator.next()).toMatchObject({
+        value: [0, 1],
+        done: false,
+      });
+    });
+
+    test('for ... of', () => {
+      const arr = [1, 2, 3, 4, 5];
+      const vResult: number[] = [];
+      const kResult: number[] = [];
+      for (const [k, v] of arr.entries()) {
+        vResult.push(v);
+        kResult.push(k);
+      }
+
+      expect(vResult).toStrictEqual([1, 2, 3, 4, 5]);
+      expect(kResult).toStrictEqual([0, 1, 2, 3, 4]);
+    });
+
+    test('likeArray use entries', () => {
+      const entries = Array.prototype.entries;
+      const likeArr = {
+        0: 1,
+        1: 2,
+        2: 3,
+        length: 3,
+      };
+      const iterator = entries.call(likeArr);
+      expect(iterator.next()).toStrictEqual({
+        value: [0, 1],
+        done: false,
+      });
+    });
+
+    test('sparseArr empty to undefined', () => {
+      const sparseArr = [, , 1];
+      const result = [];
+      for (const [k, v] of sparseArr.entries()) {
+        result.push(v);
+      }
+
+      expect(result).toStrictEqual([undefined, undefined, 1]);
+    });
+  });
 });
