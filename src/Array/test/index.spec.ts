@@ -40,7 +40,7 @@ describe('array', () => {
     expect(arr3).toBeInstanceOf(LikeArray);
   });
 
-  test('array.at', () => {
+  test('array.at not change origin array', () => {
     const arr = [1, 2, 3];
     expect(arr.at(1)).toBe(2);
     expect(arr.at(-1)).toBe(3);
@@ -49,7 +49,7 @@ describe('array', () => {
     expect(arr.at(-4)).toBe(undefined);
   });
 
-  describe('array.concat', () => {
+  describe('array.concat not change origin array', () => {
     const origin: (string | number)[] = [1, 2, 3, 4];
     test('concat not change origin', () => {
       const source = [5, 6, 7];
@@ -103,11 +103,106 @@ describe('array', () => {
     });
   });
 
-  describe('array.copyWithin', () => {
-    const origin = [1, 2, 3, 4, 5];
-    test('only target parameter, start default 0, end default length - 1', () => {
-      const result = origin.copyWithin(3, 0); // mdn 上 start 可选 ts 必选
-      expect(result).toStrictEqual([1, 2, 3, 1, 2]);
+  describe('array.copyWithin can change origin Array', () => {
+    describe('only target parameter, start default 0, end default length - 1', () => {
+      test('length > target >= 0', () => {
+        const origin = [1, 2, 3, 4, 5];
+        const result = origin.copyWithin(0, 0); // mdn 上 start 可选 ts 必选
+        expect(result).toStrictEqual([1, 2, 3, 4, 5]);
+      });
+
+      test('target >= length', () => {
+        const origin = [1, 2, 3, 4, 5];
+        const result = origin.copyWithin(origin.length, 0);
+        expect(result).toStrictEqual([1, 2, 3, 4, 5]);
+      });
+
+      test('target < 0', () => {
+        const origin = [1, 2, 3, 4, 5];
+        const result = origin.copyWithin(-1, 0); // -1 + array.length
+        expect(result).toStrictEqual([1, 2, 3, 4, 1]);
+
+        const origin1 = [1, 2, 3, 4, 5];
+        const result1 = origin1.copyWithin(-6, 0);
+        expect(result1).toStrictEqual([1, 2, 3, 4, 5]);
+
+        const origin2 = [1, 2, 3, 4, 5];
+        const result2 = origin2.copyWithin(-11, 0);
+        expect(result2).toStrictEqual([1, 2, 3, 4, 5]);
+      });
+    });
+
+    describe('target 0, start, end: defalut', () => {
+      test('0 < start < length', () => {
+        const origin = [1, 2, 3, 4, 5];
+        const result = origin.copyWithin(0, 1);
+        expect(result).toStrictEqual([2, 3, 4, 5, 5]); // 填充位置0, 复制元素的区间[1, 5) => 2, 3, 4, 5, 5 最后那个5 是原本位置的 5
+      });
+
+      test('start > length', () => {
+        const origin = [1, 2, 3, 4, 5];
+        const result = origin.copyWithin(0, 6); // 超过 length 会变成0
+        expect(result).toStrictEqual([1, 2, 3, 4, 5]);
+      });
+
+      test('start < 0', () => {
+        const origin = [1, 2, 3, 4, 5];
+        const result = origin.copyWithin(0, -1); // (0, 4)
+        expect(result).toStrictEqual([5, 2, 3, 4, 5]);
+
+        const origin1 = [1, 2, 3, 4, 5];
+        const result1 = origin1.copyWithin(0, -6);
+        expect(result1).toStrictEqual([1, 2, 3, 4, 5]); // 大于 -length 变成0
+      });
+    });
+
+    describe('target 0, start 1, end', () => {
+      const base = [1, 2, 3, 4, 5];
+      test('0 < end < length', () => {
+        const origin = [...base];
+        const result = origin.copyWithin(0, 1, 2);
+        expect(result).toStrictEqual([2, 2, 3, 4, 5]);
+      });
+
+      test('end > length', () => {
+        const origin = [...base];
+        const result = origin.copyWithin(0, 1, 6);
+        expect(result).toStrictEqual([2, 3, 4, 5, 5]);
+      });
+
+      test('end < 0', () => {
+        const origin = [...base];
+        const result = origin.copyWithin(0, 1, -2);
+        expect(result).toStrictEqual([2, 3, 3, 4, 5]);
+
+        const origin1 = [...base];
+        const result1 = origin1.copyWithin(0, 1, -6); // end < -length === 0 start > end 什么都不复制
+        expect(result1).toStrictEqual([1, 2, 3, 4, 5]);
+      });
+    });
+
+    describe('target any, start any, end any', () => {
+      const base = [1, 2, 3, 4, 5];
+
+      test('end > start, no copy', () => {
+        const origin = [...base];
+        const result = origin.copyWithin(1, 2, 1);
+        expect(result).toStrictEqual([1, 2, 3, 4, 5]);
+      });
+
+      test('copyWithin can keep empty', () => {
+        const origin = new Array(5);
+        origin[0] = 1;
+        origin[2] = 1;
+        origin[4] = 1;
+
+        const result = origin.copyWithin(0, 1, 4);
+
+        const matched = new Array(5);
+        matched[1] = 1;
+        matched[4] = 1;
+        expect(result).toStrictEqual(matched);
+      });
     });
   });
 });

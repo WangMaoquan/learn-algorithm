@@ -182,4 +182,6 @@ testArr.concat([1, 2]); // NotAnArray { '0': 0, '1': 1, '2': 2, '3': 1, '4': 2, 
  * 3. concat(source1, source2, ....sourcen) 方法用于合并两个或多个数组。此方法不会更改现有数组，而是返回一个新数组
  *
  * 4. copyWithin(target, start, end) 方法浅复制数组的一部分到同一数组中的另一个位置，并返回它，不会改变原数组的长度
+ *      target 填充开始位置, start 复制元素开始位置(包括start位置的元素), end 为结束位置(不包括end位置元素)
+ *      可以理解为 [start, end) 区间的元素 从 target位置开始填充
  */
