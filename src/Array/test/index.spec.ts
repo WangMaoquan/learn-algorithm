@@ -299,4 +299,78 @@ describe('array', () => {
       expect(result).toBe(false);
     });
   });
+
+  describe('array.fill', () => {
+    const base = [1, 2, 3, 4, 5];
+    test('value any, start default, end default length', () => {
+      const result = [...base].fill(6);
+      expect(result).toStrictEqual([6, 6, 6, 6, 6]);
+    });
+
+    describe('value 6, end default length', () => {
+      test('0 < start < length,  can fill', () => {
+        const result = [...base].fill(6, 2);
+        expect(result).toStrictEqual([1, 2, 6, 6, 6]);
+      });
+
+      test('start > length,  not fill', () => {
+        const result = [...base].fill(6, 6);
+        expect(result).toStrictEqual([1, 2, 3, 4, 5]);
+      });
+
+      test('-length < start < 0, newStart = length + start', () => {
+        const result = [...base].fill(6, -2);
+        expect(result).toStrictEqual([1, 2, 3, 6, 6]);
+      });
+
+      test('-length > start, start change to 0', () => {
+        const result = [...base].fill(6, -6);
+        expect(result).toStrictEqual([6, 6, 6, 6, 6]);
+      });
+    });
+
+    describe('value 6, start 1', () => {
+      test('start < end < length', () => {
+        const result = [...base].fill(6, 1, 3);
+        expect(result).toStrictEqual([1, 6, 6, 4, 5]);
+      });
+
+      test('start < end', () => {
+        const result = [...base].fill(6, 4, 1);
+        expect(result).toStrictEqual([1, 2, 3, 4, 5]);
+      });
+
+      test('end > length, newEnd change to length', () => {
+        const result = [...base].fill(6, 1, 6);
+        expect(result).toStrictEqual([1, 6, 6, 6, 6]);
+      });
+
+      test('-length < end < 0', () => {
+        const result = [...base].fill(6, 1, -2);
+        expect(result).toStrictEqual([1, 6, 6, 4, 5]);
+      });
+
+      test('-length > end, newEnd change to 0', () => {
+        const result = [...base].fill(6, 1, -6);
+        expect(result).toStrictEqual([1, 2, 3, 4, 5]);
+      });
+    });
+
+    test('likeArray use fill', () => {
+      const fill = Array.prototype.fill;
+      const likeArr = {
+        0: 1,
+        1: 2,
+        2: 3,
+        length: 3,
+      };
+      fill.call(likeArr, 6);
+      expect(likeArr).toStrictEqual({
+        0: 6,
+        1: 6,
+        2: 6,
+        length: 3,
+      });
+    });
+  });
 });

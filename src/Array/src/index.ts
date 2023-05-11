@@ -191,4 +191,6 @@ testArr.concat([1, 2]); // NotAnArray { '0': 0, '1': 1, '2': 2, '3': 1, '4': 2, 
  *    如果中途遇到 cb 返回一个假值, 会中止遍历且返回false
  *    empty 是不会触发 cb的
  *    every 是不会改变原数组, 但是 cb 会
+ *
+ * 7. fill(value, start, end) 填充数组 会修改原数组 value 填充的值, start 开始下标 end 结束下标 => [start, end) 区间内填充
  */
