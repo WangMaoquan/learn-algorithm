@@ -1,4 +1,4 @@
-import { test, describe, expect } from 'vitest';
+import { test, describe, expect, vi } from 'vitest';
 
 describe('array', () => {
   describe('create Array', () => {
@@ -253,6 +253,50 @@ describe('array', () => {
       }
 
       expect(result).toStrictEqual([undefined, undefined, 1]);
+    });
+  });
+
+  describe('array.every', () => {
+    const base = [1, 2, 3, 4, 5];
+    test('every return boolean', () => {
+      const result = base.every((v) => v < 3);
+      expect(result).toBe(false);
+    });
+
+    test('every cb return false immediately stop', () => {
+      const test = vi.fn();
+      base.every((v) => {
+        test();
+        return v < 3;
+      });
+      expect(test).toHaveBeenCalledTimes(3);
+    });
+
+    test('every empty not call cb', () => {
+      const test = vi.fn();
+      const emtpyArr = new Array(5);
+      emtpyArr[0] = 1;
+      emtpyArr[2] = 2;
+      emtpyArr[4] = 3;
+
+      emtpyArr.every((v) => {
+        test();
+        return v % 2 === 1;
+      });
+
+      expect(test).toHaveBeenCalledTimes(2);
+    });
+
+    test('likeArray use every', () => {
+      const every = Array.prototype.every;
+      const likeArr = {
+        0: 1,
+        1: 2,
+        2: 3,
+        length: 3,
+      };
+      const result = every.call(likeArr, (v) => v < 2);
+      expect(result).toBe(false);
     });
   });
 });
