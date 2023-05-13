@@ -17,7 +17,6 @@
 export class TreeNode<T = any> {
   left?: TreeNode;
   right?: TreeNode;
-  level = 0;
   constructor(public value: T) {}
 }
 
@@ -38,47 +37,6 @@ export class TreeNode<T = any> {
 
 export class Tree<T = any> {
   constructor(public root: TreeNode<T>) {}
-  addNode(node: TreeNode<T>, target?: TreeNode<T>) {
-    const current = target || this.root;
-    const nodeLevel = current.level;
-    node.level = nodeLevel + 1;
-    if (current.left === undefined) {
-      current.left = node;
-    } else if (current.right === undefined) {
-      current.right = node;
-    } else if (this.shouldInsert(++node.level)) {
-      this.addNode(node, current.left);
-    } else {
-      this.addNode(node, current.right);
-    }
-  }
-
-  shouldInsert(level: number) {
-    const leftCount = this.getNodesCount(this.root.left, 0, level) || 0;
-    const rightCount = this.getNodesCount(this.root.right, 0, level) || 0;
-    return (
-      leftCount <= Math.pow(2, level) - 1 &&
-      rightCount === Math.pow(2, level - 1) - 1
-    );
-  }
-
-  /**
-   * 获取根节点左/右的节点数量
-   * @param leftOright
-   */
-  getNodesCount(leftOright?: TreeNode, count = 0, level = 0) {
-    if (!leftOright) {
-      return;
-    }
-    count++;
-    if (leftOright.level === level) {
-      return;
-    }
-    count = this.getNodesCount(leftOright?.left, count, level) || 0;
-    count = this.getNodesCount(leftOright?.right, count, level) || 0;
-    return count;
-  }
-
   preorderTraverse(root?: TreeNode, cb?: (value: T) => void) {
     if (!root) {
       return;
