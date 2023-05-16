@@ -835,4 +835,62 @@ describe('array', () => {
       expect([NaN, ...base].includes(NaN)).toBe(true);
     });
   });
+
+  describe('array.indexOf', () => {
+    const base = [1, 2, 3, 4];
+    test('返回值是一个number', () => {
+      expect(base.indexOf(1)).toBe(0);
+      expect(base.indexOf(5)).toBe(-1);
+    });
+
+    describe('fromIndex paramter', () => {
+      test('0 < fromIndex < length', () => {
+        expect(base.indexOf(1, 1)).toBe(-1);
+      });
+
+      test('fromIndex >= length', () => {
+        expect(base.indexOf(1, 6)).toBe(-1);
+        expect(base.indexOf(1, base.length)).toBe(-1);
+      });
+
+      test('0 > fromIndex > -length, 会变成fromIndex + length', () => {
+        expect(base.indexOf(1, -1)).toBe(-1);
+        expect(base.indexOf(1, -4)).toBe(0);
+      });
+
+      test('-length > fromIndex, 会当做0', () => {
+        expect(base.indexOf(1, -6)).toBe(0);
+      });
+    });
+
+    test('使用的是严格相等', () => {
+      const obj = {
+        name: 'decade',
+      };
+      expect([obj, ...base].indexOf(obj)).toBe(0);
+      expect(
+        [
+          {
+            name: 'decade',
+          },
+          ...base,
+        ].indexOf(obj),
+      ).toBe(-1);
+    });
+
+    test('会跳过 empty', () => {
+      expect([, ...base].indexOf(undefined)).toBe(-1);
+    });
+
+    test('likeArray', () => {
+      const arrayLike = {
+        length: 3,
+        0: 2,
+        1: 3,
+        2: 4,
+      };
+      const indexOf = Array.prototype.indexOf;
+      expect(indexOf.call(arrayLike, 2)).toBe(0);
+    });
+  });
 });

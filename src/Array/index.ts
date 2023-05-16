@@ -240,4 +240,10 @@ testArr.concat([1, 2]); // NotAnArray { '0': 0, '1': 1, '2': 2, '3': 1, '4': 2, 
  *
  * 20. includes(searchEle, ?fromIndex) 方法用来判断一个数组是否包含一个指定的值
  *      empty 会当做 undefined
+ *      能判断 NaN
+ *      -0, +0相等
+ *
+ * 21. indexOf(serachEle, ?fromIndex) 方法返回数组中第一次出现给定元素的下标，如果不存在则返回 -1
+ *      使用的是严格相等
+ *       会跳过 empty
  */
