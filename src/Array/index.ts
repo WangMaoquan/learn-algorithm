@@ -256,4 +256,8 @@ testArr.concat([1, 2]); // NotAnArray { '0': 0, '1': 1, '2': 2, '3': 1, '4': 2, 
  *
  * 24. keys 返回一个数组迭代器对象, 其中包含数组中每个索引的键
  *      empty 会当做 undefined
+ *
+ * 25. lastIndexOf(searchEle, ?fromIndex) 方法返回数组中给定元素最后一次出现的索引 如果不存在则返回 -1。该方法从 fromIndex 开始向前搜索数组
+ *     会跳过 empty
+ *      使用的是严格相等
  */

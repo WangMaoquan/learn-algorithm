@@ -823,12 +823,12 @@ describe('array', () => {
     test('likeArray', () => {
       const arrayLike = {
         length: 3,
-        0: 2,
         1: 3,
         2: 4,
       };
       const includes = Array.prototype.includes;
-      expect(includes.call(arrayLike, 2)).toBe(true);
+      expect(includes.call(arrayLike, 2)).toBe(false);
+      expect(includes.call(arrayLike, 3)).toBe(true);
     });
 
     test('NaN', () => {
@@ -885,12 +885,12 @@ describe('array', () => {
     test('likeArray', () => {
       const arrayLike = {
         length: 3,
-        0: 2,
         1: 3,
         2: 4,
       };
       const indexOf = Array.prototype.indexOf;
-      expect(indexOf.call(arrayLike, 2)).toBe(0);
+      expect(indexOf.call(arrayLike, 2)).toBe(-1);
+      expect(indexOf.call(arrayLike, 3)).toBe(1);
     });
   });
 
@@ -976,6 +976,67 @@ describe('array', () => {
         value: 0,
         done: false,
       });
+    });
+  });
+
+  describe('array.lastIndexOf', () => {
+    const base = [1, 2, 3, 4];
+    test('返回值是一个数字', () => {
+      expect(base.lastIndexOf(1)).toBe(0);
+      expect(base.lastIndexOf(5)).toBe(-1);
+    });
+
+    describe('fromIndex parameter', () => {
+      test('0 < fromIndex < length', () => {
+        expect(base.lastIndexOf(1, 1)).toBe(0);
+        expect(base.lastIndexOf(2, 1)).toBe(1);
+        expect(base.lastIndexOf(3, 1)).toBe(-1);
+      });
+
+      test('fromIndex >= length, 会当做 length - 1', () => {
+        expect(base.lastIndexOf(1, base.length)).toBe(0);
+      });
+
+      test('0 > fromIndex > -length', () => {
+        // -2 + 4 = 2
+        expect(base.lastIndexOf(2, -2)).toBe(1);
+        // -3 + 4 = 1
+        expect(base.lastIndexOf(2, -3)).toBe(1);
+      });
+
+      test('-length > fromIndex', () => {
+        // 这种情况会 直接返回 -1
+        expect(base.lastIndexOf(2, -5)).toBe(-1);
+      });
+    });
+
+    test('使用的是严格相等', () => {
+      const obj = {
+        name: 'decade',
+      };
+      expect([obj, ...base].lastIndexOf(obj)).toBe(0);
+      expect(
+        [obj, ...base].lastIndexOf({
+          name: 'decade',
+        }),
+      ).toBe(-1);
+    });
+
+    test('empty 会被跳过', () => {
+      expect([, ...base].lastIndexOf(undefined)).toBe(-1);
+      expect([undefined, ...base].lastIndexOf(undefined)).toBe(0);
+    });
+
+    test('likeArray', () => {
+      const arrayLike = {
+        length: 3,
+        1: 3,
+        2: 4,
+        a: 'a',
+      };
+      const lastIndexOf = Array.prototype.lastIndexOf;
+      expect(lastIndexOf.call(arrayLike, undefined)).toBe(-1);
+      expect(lastIndexOf.call(arrayLike, 3)).toBe(1);
     });
   });
 });
