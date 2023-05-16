@@ -830,5 +830,9 @@ describe('array', () => {
       const includes = Array.prototype.includes;
       expect(includes.call(arrayLike, 2)).toBe(true);
     });
+
+    test('NaN', () => {
+      expect([NaN, ...base].includes(NaN)).toBe(true);
+    });
   });
 });
