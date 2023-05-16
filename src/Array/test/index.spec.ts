@@ -373,4 +373,204 @@ describe('array', () => {
       });
     });
   });
+
+  describe('array.filter', () => {
+    test('should return an array', () => {
+      expect([].filter((v) => v)).toEqual([]);
+    });
+
+    test('every item should call cb', () => {
+      const injectFn = vi.fn();
+      [1, 2, 3, 4, 5].filter((i) => {
+        injectFn();
+        return i < 5;
+      });
+
+      expect(injectFn).toHaveBeenCalledTimes(5);
+    });
+
+    test('empty not call cb', () => {
+      const injectFn = vi.fn();
+      [1, 2, , , 4, , 5].filter((i) => {
+        injectFn();
+        return (i || 0) < 4;
+      });
+
+      expect(injectFn).toHaveBeenCalledTimes(4);
+    });
+
+    test('object has length key also can use', () => {
+      const filter = Array.prototype.filter;
+      const arrayLike = {
+        length: 3,
+        0: 'a',
+        1: 'b',
+        2: 'c',
+      };
+      const r = filter.call(arrayLike, (v) => v === 'b');
+      expect(r).toEqual(['b']);
+    });
+  });
+
+  describe('array.find', () => {
+    test('should return target or undefind', () => {
+      expect([1, 2, 3, 4].find((v) => v === 1)).toBe(1);
+      expect([1, 2, 3, 4].find((v) => v === 5)).toBe(undefined);
+    });
+
+    test('cb 返回了真值, 将停止迭代', () => {
+      const arr = [1, 2, 3, 4, 5];
+      const injectFn = vi.fn();
+      arr.find((i) => {
+        injectFn();
+        return i < 3;
+      });
+      expect(injectFn).toBeCalledTimes(1);
+    });
+
+    test('cb 会把 empty 当做undefined', () => {
+      const injectFn = vi.fn();
+      [1, , undefined, 2].find((i) => {
+        injectFn();
+        return i === undefined;
+      });
+      // 如果empty 不当做 undefined 应该是 3次
+      expect(injectFn).toHaveBeenCalledTimes(2);
+    });
+
+    test('likeArray', () => {
+      const find = Array.prototype.find;
+      const arrayLike = {
+        length: 3,
+        0: 'a',
+        1: 'b',
+        2: 'c',
+      };
+      const r = find.call(arrayLike, (v) => v === 'b');
+      expect(r).toEqual('b');
+    });
+  });
+
+  describe('array.findIndex', () => {
+    test('返回的是满足 cb 的第一个元素的下标', () => {
+      const r = [1, 2, 3, 4, 1].findIndex((i) => i === 1);
+      expect(r).not.toBe(4);
+      expect(r).toBe(0);
+    });
+
+    test('没有找到 则返回 undefined', () => {
+      expect([1, 2, 3].findIndex((v) => v === 4)).toBe(-1);
+    });
+
+    test('cb 返回真值 停止迭代', () => {
+      const inFn = vi.fn();
+      [1, 2, 3, 4, 5].findIndex((i) => {
+        inFn();
+        return i < 3;
+      });
+      expect(inFn).toBeCalledTimes(1);
+    });
+
+    test('empty 当做 undefined', () => {
+      const inFn = vi.fn();
+      [1, , undefined].findIndex((i) => {
+        inFn();
+        return i === undefined;
+      });
+      expect(inFn).toBeCalledTimes(2);
+    });
+
+    test('likeArray', () => {
+      const findIndex = Array.prototype.findIndex;
+      const arrayLike = {
+        length: 3,
+        0: 'a',
+        1: 'b',
+        2: 'c',
+      };
+      const r = findIndex.call(arrayLike, (v) => v === 'b');
+      expect(r).toEqual(1);
+    });
+  });
+
+  describe('array.findLast', () => {
+    test('should return target or undefind', () => {
+      expect([1, 2, 3, 4].findLast((v) => v === 1)).toBe(1);
+      expect([1, 2, 3, 4].findLast((v) => v === 5)).toBe(undefined);
+    });
+
+    test('cb 返回了真值, 将停止迭代', () => {
+      const arr = [1, 2, 3, 4, 5];
+      const injectFn = vi.fn();
+      arr.findLast((i) => {
+        injectFn();
+        return i < 3;
+      });
+      expect(injectFn).toBeCalledTimes(4);
+    });
+
+    test('cb 会把 empty 当做undefined', () => {
+      const injectFn = vi.fn();
+      [1, undefined, , 3, 2].findLast((i) => {
+        injectFn();
+        return i === undefined;
+      });
+
+      expect(injectFn).toHaveBeenCalledTimes(3);
+    });
+
+    test('likeArray', () => {
+      const findLast = Array.prototype.findLast;
+      const arrayLike = {
+        length: 3,
+        0: 'a',
+        1: 'b',
+        2: 'c',
+      };
+      const r = findLast.call(arrayLike, (v) => v === 'b');
+      expect(r).toEqual('b');
+    });
+  });
+
+  describe('array.findLastIndex', () => {
+    test('返回的是满足 cb 的第一个元素的下标', () => {
+      const r = [1, 2, 3, 4, 1].findLastIndex((i) => i === 1);
+      expect(r).not.toBe(0);
+      expect(r).toBe(4);
+    });
+
+    test('没有找到 则返回 undefined', () => {
+      expect([1, 2, 3].findLastIndex((v) => v === 4)).toBe(-1);
+    });
+
+    test('cb 返回真值 停止迭代', () => {
+      const inFn = vi.fn();
+      [1, 2, 3, 4, 5].findLastIndex((i) => {
+        inFn();
+        return i < 3;
+      });
+      expect(inFn).toBeCalledTimes(4);
+    });
+
+    test('empty 当做 undefined', () => {
+      const inFn = vi.fn();
+      [1, , undefined].findLastIndex((i) => {
+        inFn();
+        return i === undefined;
+      });
+      expect(inFn).toBeCalledTimes(1);
+    });
+
+    test('likeArray', () => {
+      const findLastIndex = Array.prototype.findLastIndex;
+      const arrayLike = {
+        length: 3,
+        0: 'a',
+        1: 'b',
+        2: 'c',
+      };
+      const r = findLastIndex.call(arrayLike, (v) => v === 'b');
+      expect(r).toEqual(1);
+    });
+  });
 });

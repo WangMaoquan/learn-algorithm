@@ -187,10 +187,25 @@ testArr.concat([1, 2]); // NotAnArray { '0': 0, '1': 1, '2': 2, '3': 1, '4': 2, 
  *
  * 5. entries 返回 数组迭代器对象 对象包含数组中每个索引的键/值对
  *
- * 6. every 返回一个布尔值, 用测试数组内所有元素是否能通过指定函数的测试
+ * 6. every(cb, thisArg) 返回一个布尔值, 用测试数组内所有元素是否能通过指定函数的测试
  *    如果中途遇到 cb 返回一个假值, 会中止遍历且返回false
  *    empty 是不会触发 cb的
  *    every 是不会改变原数组, 但是 cb 会
  *
  * 7. fill(value, start, end) 填充数组 会修改原数组 value 填充的值, start 开始下标 end 结束下标 => [start, end) 区间内填充
+ *
+ * 8. filter(cb, thisArg) 创建给定数组一部分的浅拷贝，其包含通过所提供函数实现的测试的所有元素
+ *     cb 仅对已分配值的数组索引调用。它不会对稀疏数组中的空槽调用
+ *
+ * 9. find(cb, thisArg) 方法返回数组中满足提供的测试函数的第一个元素的值。否则返回 undefined
+ *    find 是一个迭代方法, 按照索引升序为数组每一个元素执行cb, 直到cb 返回一个真值, 马上停止迭代
+ *    稀疏数组中的empty 会当做 undefined
+ *
+ * 10. findIndex(cb, thisArg) 方法返回数组中满足提供的测试函数的第一个元素的索引。若没有找到对应元素则返回 -1
+ *      findIndex() 是一种迭代方法。它按照索引升序依次遍历数组中的每个元素，并调用提供的 cb 函数，直到 cb 返回一个真值。然后 findIndex() 返回该元素的索引并停止遍历数组
+ *      稀疏数组中的empty 会当做undefined
+ *
+ * 11. findLast 可以理解为是 find 的逆向版本
+ *
+ * 12. findLastIndex 也可以理解为 findIndex 的逆向版本
  */
