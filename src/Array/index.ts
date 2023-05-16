@@ -246,4 +246,8 @@ testArr.concat([1, 2]); // NotAnArray { '0': 0, '1': 1, '2': 2, '3': 1, '4': 2, 
  * 21. indexOf(serachEle, ?fromIndex) 方法返回数组中第一次出现给定元素的下标，如果不存在则返回 -1
  *      使用的是严格相等
  *       会跳过 empty
+ *
+ * 22. Array.isArray 静态方法用于确定传递的值是否是一个 Array
+ *    Array.isArray() 检查传递的值是否为 Array。它不检查值的原型链，也不依赖于它所附加的 Array 构造函数。
+ *    对于使用数组字面量语法或 Array 构造函数创建的任何值，它都会返回 true
  */

@@ -893,4 +893,23 @@ describe('array', () => {
       expect(indexOf.call(arrayLike, 2)).toBe(0);
     });
   });
+
+  describe('Array.isArray', () => {
+    test('使用数组构造函数, 字面量创建的 才返回true', () => {
+      expect(Array.isArray(new Array(1))).toBe(true);
+      expect(Array.isArray(new Array(1, 1, 2))).toBe(true);
+      expect(Array.isArray(Array(1, 1, 2))).toBe(true);
+      expect(Array.isArray([])).toBe(true);
+      // Array.prototype 也是一个数组
+      expect(Array.isArray(Array.prototype)).toBe(true);
+
+      expect(Array.isArray(1)).toBe(false);
+      expect(Array.isArray('')).toBe(false);
+      expect(Array.isArray({})).toBe(false);
+      expect(Array.isArray(null)).toBe(false);
+      expect(Array.isArray(undefined)).toBe(false);
+      expect(Array.isArray(new Uint8Array(32))).toBe(false);
+      expect(Array.isArray({ __proto__: Array.prototype })).toBe(false);
+    });
+  });
 });
