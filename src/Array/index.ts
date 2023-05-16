@@ -237,4 +237,7 @@ testArr.concat([1, 2]); // NotAnArray { '0': 0, '1': 1, '2': 2, '3': 1, '4': 2, 
  *
  *
  * 19. groupToMap(cb, ?thisArg) 方法根据提供的测试函数返回的值对调用数组的元素进行分组。最终返回的 Map 使用测试函数返回的唯一值作为键，可以用于获取每个组中的元素数组
+ *
+ * 20. includes(searchEle, ?fromIndex) 方法用来判断一个数组是否包含一个指定的值
+ *      empty 会当做 undefined
  */

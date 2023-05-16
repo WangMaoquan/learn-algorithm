@@ -786,4 +786,49 @@ describe('array', () => {
       expect(Array.from.call({}, { length: 1, 0: 'foo' })).toEqual(['foo']);
     });
   });
+
+  describe('array.includes', () => {
+    const base = [1, 2, 3, 4];
+    test('返回值是boolean', () => {
+      expect(base.includes(1)).toBe(true);
+      expect(base.includes(5)).toBe(false);
+    });
+
+    describe('fromIndex parameter', () => {
+      test('0 < fromIndex < length', () => {
+        expect(base.includes(1, 2)).toBe(false);
+      });
+
+      test('fromIndex >= length, 不会搜索数组 直接返回false', () => {
+        expect(base.includes(1, 5)).toBe(false);
+      });
+
+      test('-length < fromIndex < 0', () => {
+        expect(base.includes(1, -1)).toBe(false);
+      });
+
+      test('-length > fromIndex, 当做0', () => {
+        expect(base.includes(1, -7)).toBe(true);
+      });
+    });
+
+    test('-0 和 0 视为相等', () => {
+      expect([0, ...base].includes(-0)).toBe(true);
+    });
+
+    test('empty 会当做 undefined', () => {
+      expect([, ...base].includes(undefined)).toBe(true);
+    });
+
+    test('likeArray', () => {
+      const arrayLike = {
+        length: 3,
+        0: 2,
+        1: 3,
+        2: 4,
+      };
+      const includes = Array.prototype.includes;
+      expect(includes.call(arrayLike, 2)).toBe(true);
+    });
+  });
 });
