@@ -263,4 +263,7 @@ testArr.concat([1, 2]); // NotAnArray { '0': 0, '1': 1, '2': 2, '3': 1, '4': 2, 
  *
  * 26. map(cb, ?thisArg) 方法创建一个新数组，这个新数组由原数组中的每个元素都调用一次提供的函数后的返回值组成
  *      empty 会跳过 cb
+ *
+ * 27. Array.of(?element0, ?element1, ....elementn) 静态方法通过可变数量的参数创建一个新的 Array 实例，而不考虑参数的数量或类型
+ *    
  */

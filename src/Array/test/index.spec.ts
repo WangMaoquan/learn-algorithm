@@ -1077,4 +1077,40 @@ describe('array', () => {
       ).toEqual([undefined, undefined, undefined, undefined]);
     });
   });
+
+  describe('Array.of', () => {
+    test('create Array', () => {
+      expect(Array.of(1)).toEqual([1]);
+      expect(Array.of()).toEqual([]);
+      expect(Array.of(1, 2, 3)).toEqual([1, 2, 3]);
+    });
+
+    test('of() 方法可以在任何接受单个参数表示新数组长度的构造函数上调用', () => {
+      const of = Array.of;
+      function NotArray(len: number) {
+        console.log('NotArray called with length', len);
+      }
+
+      const r1 = of.call(NotArray, 1, 2, 3);
+      expect(r1).toMatchObject({
+        0: 1,
+        1: 2,
+        2: 3,
+        length: 3,
+      });
+
+      const r2 = of.call(Object, 1, 2, 3);
+      // Number {3, 0: 1, 1: 2, 2: 3, length: 3}
+      // matchObject 匹配是子类
+      expect(r2).toMatchObject({
+        0: 1,
+        1: 2,
+        2: 3,
+        length: 3,
+      });
+
+      const r3 = of.call({}, 1);
+      expect(r3).toEqual([1]);
+    });
+  });
 });
