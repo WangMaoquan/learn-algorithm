@@ -912,4 +912,36 @@ describe('array', () => {
       expect(Array.isArray({ __proto__: Array.prototype })).toBe(false);
     });
   });
+
+  describe('array.join', () => {
+    const base = [1, 2, 3, 4];
+    test('返回一个字符串', () => {
+      expect(base.join()).toBe('1,2,3,4');
+      expect([].join()).toBe('');
+    });
+
+    test('自定义连接符', () => {
+      expect(base.join(', ')).toBe('1, 2, 3, 4');
+    });
+
+    test('数组中如果有undefined 或者 null 会被变成空串', () => {
+      expect([undefined, null].join('-')).toBe('-');
+    });
+
+    test('empty 会当做 undefined', () => {
+      expect(new Array(5).join('-')).toBe('----');
+    });
+
+    test('likeArray', () => {
+      const arrayLike = {
+        length: 3,
+        0: 2,
+        1: 3,
+        2: 4,
+        a: 'a',
+      };
+      const join = Array.prototype.join;
+      expect(join.call(arrayLike, '-')).toBe('2-3-4');
+    });
+  });
 });
