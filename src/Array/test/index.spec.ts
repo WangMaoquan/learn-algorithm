@@ -1039,4 +1039,42 @@ describe('array', () => {
       expect(lastIndexOf.call(arrayLike, 3)).toBe(1);
     });
   });
+
+  describe('array.map', () => {
+    const base = [1, 2, 3, 4];
+    test('返回一个数组', () => {
+      expect(base.map((i) => i * 2)).toEqual([2, 4, 6, 8]);
+    });
+
+    test('likeArray', () => {
+      const arrayLike = {
+        length: 3,
+        1: 3,
+        2: 4,
+      };
+      const map = Array.prototype.map;
+      // 0 位置 浏览器打印其实是 empty
+      expect(map.call(arrayLike, (v) => v)).toEqual([, 3, 4]);
+    });
+
+    test('empty 不会执行 cb', () => {
+      const fn = vi.fn();
+      const r = [1, 2, 3, , 4].map((i) => {
+        fn(); // empty 不会 执行 cb, 看结果应该是直接返回的
+        return i;
+      });
+
+      expect(fn).toBeCalledTimes(4);
+      expect(r.length).toBe(5);
+      expect(r).toEqual([1, 2, 3, , 4]);
+    });
+
+    test('没有 返回值时, 返回与原数组长度一样的新数组, 每一项都是undefined', () => {
+      expect(
+        base.map((i) => {
+          //todo
+        }),
+      ).toEqual([undefined, undefined, undefined, undefined]);
+    });
+  });
 });

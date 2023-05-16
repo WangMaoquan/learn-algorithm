@@ -260,4 +260,7 @@ testArr.concat([1, 2]); // NotAnArray { '0': 0, '1': 1, '2': 2, '3': 1, '4': 2, 
  * 25. lastIndexOf(searchEle, ?fromIndex) 方法返回数组中给定元素最后一次出现的索引 如果不存在则返回 -1。该方法从 fromIndex 开始向前搜索数组
  *     会跳过 empty
  *      使用的是严格相等
+ *
+ * 26. map(cb, ?thisArg) 方法创建一个新数组，这个新数组由原数组中的每个元素都调用一次提供的函数后的返回值组成
+ *      empty 会跳过 cb
  */
