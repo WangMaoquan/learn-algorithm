@@ -632,4 +632,68 @@ describe('array', () => {
       expect(r).toEqual(['a', 'a', 'b', 'b', 'c', 'c']);
     });
   });
+
+  describe('array.forEach', () => {
+    test('返回值总是undefined', () => {
+      expect([].forEach((i) => i)).toBe(undefined);
+    });
+
+    test('cb', () => {
+      const fn = vi.fn();
+      [1, 2, 3, 4].forEach((i) => {
+        fn();
+        // console.log(i);
+      });
+      expect(fn).toBeCalledTimes(4);
+    });
+
+    test('empty not call cb', () => {
+      const fn = vi.fn();
+      [1, 2, , 4].forEach((i) => {
+        fn();
+        // console.log(i);
+      });
+      expect(fn).toBeCalledTimes(3);
+    });
+
+    test('likeArray', () => {
+      const forEach = Array.prototype.forEach;
+      const fn = vi.fn();
+      const arrayLike = {
+        length: 3,
+        0: 'a',
+        1: 'b',
+        2: 'c',
+      };
+      const r = forEach.call(arrayLike, (v) => fn());
+      expect(r).toEqual(undefined);
+      expect(fn).toBeCalledTimes(3);
+    });
+
+    test('只有抛出异常还会中止循环', () => {
+      const fn = vi.fn();
+      const test = () => {
+        [1, 2, 3, 4].forEach((i) => {
+          if (i === 3) {
+            throw Error('3');
+          }
+          fn();
+        });
+      };
+
+      expect(test).toThrowError('3');
+
+      // 中止循环成功
+      expect(fn).toBeCalledTimes(2);
+    });
+
+    test('cb 是一个 promise', async () => {
+      let sum = 0;
+      const add = async (a: number, b: number) => a + b;
+      [1, 2, 3, 4].forEach(async (v) => {
+        sum = await add(sum, v);
+      });
+      expect(sum).toBe(0);
+    });
+  });
 });
