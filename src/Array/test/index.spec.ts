@@ -573,4 +573,63 @@ describe('array', () => {
       expect(r).toEqual(1);
     });
   });
+
+  describe('array.flat', () => {
+    test('返回一个数组, 不会改变原数组', () => {
+      const arr = [1, 2, 3, [4, 5, [6]]];
+      expect(arr.flat()).toEqual([1, 2, 3, 4, 5, [6]]);
+      expect(arr.flat(1)).toEqual([1, 2, 3, 4, 5, [6]]);
+      expect(arr.flat(2)).toEqual([1, 2, 3, 4, 5, 6]);
+    });
+
+    test('被拍平的哪几层中 empty 会被忽略', () => {
+      const arr = [1, , 2, [3, , 4, [5, , 6]]];
+      expect(arr.flat()).toEqual([1, 2, 3, 4, [5, , 6]]);
+    });
+
+    test('likeArray', () => {
+      const flat = Array.prototype.flat;
+      const arrayLike = {
+        length: 3,
+        0: 'a',
+        1: 'b',
+        2: 'c',
+      };
+      const r = flat.call(arrayLike, 1);
+      expect(r).toEqual(['a', 'b', 'c']);
+    });
+  });
+
+  describe('array.flatMap', () => {
+    test('返回一个数组', () => {
+      const arr = [1, 2, 3, 4];
+      expect(arr.flatMap((i) => [i, i * 2])).toEqual([1, 2, 2, 4, 3, 6, 4, 8]);
+    });
+
+    test('只会拍一层', () => {
+      const arr = [1, 2, 3, 4];
+      expect(arr.flatMap((i) => [i, [i * 2]])).toEqual([
+        1,
+        [2],
+        2,
+        [4],
+        3,
+        [6],
+        4,
+        [8],
+      ]);
+    });
+
+    test('likeArray', () => {
+      const flatMap = Array.prototype.flatMap;
+      const arrayLike = {
+        length: 3,
+        0: 'a',
+        1: 'b',
+        2: 'c',
+      };
+      const r = flatMap.call(arrayLike, (v) => [v, v]);
+      expect(r).toEqual(['a', 'a', 'b', 'b', 'c', 'c']);
+    });
+  });
 });

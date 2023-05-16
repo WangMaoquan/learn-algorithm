@@ -208,4 +208,11 @@ testArr.concat([1, 2]); // NotAnArray { '0': 0, '1': 1, '2': 2, '3': 1, '4': 2, 
  * 11. findLast 可以理解为是 find 的逆向版本
  *
  * 12. findLastIndex 也可以理解为 findIndex 的逆向版本
+ *
+ * 13. flat(depth) 方法创建一个新的数组，并根据指定深度递归地将所有子数组元素拼接到新的数组中
+ *     depth 默认为1
+ *     会忽略稀疏数组中的 empty
+ *
+ * 14. flatMap(cb, thisArg) 方法对数组中的每个元素应用给定的回调函数，然后将结果展开一级，返回一个新数组
+ *     可以理解为 map().flat() 这样
  */
