@@ -944,4 +944,38 @@ describe('array', () => {
       expect(join.call(arrayLike, '-')).toBe('2-3-4');
     });
   });
+
+  describe('array.keys', () => {
+    const base = [1, 2, 3, 4];
+    test('返回的是一个数组迭代器对象', () => {
+      const iterator = base.keys();
+      expect(iterator.next()).toEqual({
+        value: 0,
+        done: false,
+      });
+    });
+
+    test('empty 会被当做 undefined', () => {
+      const iterator = [,].keys();
+      expect(iterator.next()).toEqual({
+        value: 0,
+        done: false,
+      });
+    });
+
+    test('likeArray', () => {
+      const arrayLike = {
+        length: 3,
+        1: 3,
+        2: 4,
+        a: 'a',
+      };
+      const keys = Array.prototype.keys;
+      const iterator = keys.call(arrayLike);
+      expect(iterator.next()).toEqual({
+        value: 0,
+        done: false,
+      });
+    });
+  });
 });
