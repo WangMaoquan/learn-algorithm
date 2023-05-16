@@ -220,4 +220,11 @@ testArr.concat([1, 2]); // NotAnArray { '0': 0, '1': 1, '2': 2, '3': 1, '4': 2, 
  *    是一个迭代方法。它按索引升序地为数组中的每个元素调用一次提供的 cb 函数。与 map() 不同，forEach() 总是返回 undefined
  *    只有抛出异常 才会中止循环
  *    forEach() 期望的是一个同步函数，它不会等待 Promise 兑现, 所以不会等 await 没用
+ *
+ * 16. Array.from(arrayLike, ?mapFn, ?thisArg) 静态方法从可迭代或类数组对象创建一个新的浅拷贝的数组实例
+ *       mapFn, thisArg 都是可选的 可以理解为 执行一次 map操作, 不同的是 mapFn 没有第三个参数 array, 因为还在构建中
+ *      绝不会创建稀疏数组。如果 arrayLike 对象缺少一些索引属性，那么这些属性在新数组中将是 undefined
+ *
+ * 17. Array.fromAsync 实验性功能 还不支持
+ *     可以由一个异步可迭代对象、可迭代对象或类数组对象创建一个新的、浅拷贝的 Array 实例
  */

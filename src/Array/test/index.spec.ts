@@ -568,6 +568,7 @@ describe('array', () => {
         0: 'a',
         1: 'b',
         2: 'c',
+        3: 'b',
       };
       const r = findLastIndex.call(arrayLike, (v) => v === 'b');
       expect(r).toEqual(1);
@@ -590,13 +591,14 @@ describe('array', () => {
     test('likeArray', () => {
       const flat = Array.prototype.flat;
       const arrayLike = {
-        length: 3,
+        length: 5,
         0: 'a',
         1: 'b',
         2: 'c',
+        3: 'd',
       };
       const r = flat.call(arrayLike, 1);
-      expect(r).toEqual(['a', 'b', 'c']);
+      expect(r).toEqual(['a', 'b', 'c', 'd']);
     });
   });
 
@@ -694,6 +696,94 @@ describe('array', () => {
         sum = await add(sum, v);
       });
       expect(sum).toBe(0);
+    });
+  });
+
+  describe('Array.from', () => {
+    test('传入可迭代对象 Map, Set', () => {
+      const map = new Map();
+      map.set(1, 2);
+      map.set(2, 3);
+      map.set(3, 4);
+      const set = new Set();
+      set.add(1);
+      set.add(2);
+      set.add(3);
+
+      expect(Array.from(map)).toEqual([
+        [1, 2],
+        [2, 3],
+        [3, 4],
+      ]);
+      expect(Array.from(set)).toEqual([1, 2, 3]);
+    });
+
+    test('传入 类数组对象', () => {
+      const arrayLike = {
+        0: '1',
+        1: '2',
+        2: '3',
+        length: 3,
+      };
+      expect(Array.from(arrayLike)).toEqual(['1', '2', '3']);
+    });
+
+    test('不会生成稀疏数组', () => {
+      const arrayLike = {
+        0: '1',
+        1: '2',
+        2: '3',
+        a: 'b',
+        5: '4',
+        length: 4,
+      };
+      // 所有的类数组转 调用数组的 方法时 根据的是length 来的
+      // 假设 length 是3  只会去寻找 0 1 2 对应的key 是否存在
+      expect(Array.from(arrayLike)).toEqual(['1', '2', '3', undefined]);
+    });
+
+    test('使用 mapFn 第二个参数', () => {
+      expect(
+        Array.from({ length: 5 }, (v, i) => {
+          // v is undefined
+          return i;
+        }),
+      ).toEqual([0, 1, 2, 3, 4]);
+    });
+
+    test('实现一个 range', () => {
+      const range = (start: number, end: number, step: number) =>
+        Array.from(
+          {
+            length: (end - start) / step + 1,
+          },
+          (v, i) => {
+            return start + i * step;
+          },
+        );
+
+      expect(range(0, 4, 1)).toEqual([0, 1, 2, 3, 4]);
+    });
+
+    test('from() 方法可以在任何构造函数上调用，只要该构造函数接受一个表示新数组长度的单个参数', () => {
+      const fn = vi.fn();
+      function NotArray(len: number) {
+        fn();
+        console.log('NotArray called with length', len);
+      }
+
+      // @ts-ignore
+      Array.from.call(NotArray, new Set(['foo', 'bar', 'baz']));
+      expect(fn).toBeCalled();
+
+      // @ts-ignore
+      Array.from.call(NotArray, { length: 1, 0: 'foo' });
+      expect(fn).toBeCalledTimes(2);
+    });
+
+    test('当 this 值不是构造函数，返回一个普通的数组对象', () => {
+      // @ts-ignore
+      expect(Array.from.call({}, { length: 1, 0: 'foo' })).toEqual(['foo']);
     });
   });
 });
