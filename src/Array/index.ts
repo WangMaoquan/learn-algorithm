@@ -302,5 +302,14 @@ testArr.concat([1, 2]); // NotAnArray { '0': 0, '1': 1, '2': 2, '3': 1, '4': 2, 
  *     没有提供 compareFn, 会把所有非 undefined 元素 按照 UTF-16 码元值升序排序, undefined 元素 会放在最后, 并且undefined 不会执行 compareFn
  *      empty 会保留, 且 在 undefined 的后面
  *      sort() 方法会读取 this 的 length 属性。然后它会收集在 0 到 length - 1 范围内所有已存在的整数键属性，
- *        对它们进行排序，然后写回。如果范围内存在缺失的属性，则相应的尾随属性将被删除，好像不存在的属性被排序到末尾一样
+ *      对它们进行排序，然后写回。如果范围内存在缺失的属性，则相应的尾随属性将被删除，好像不存在的属性被排序到末尾一样
+ *
+ * 38. toSorted(compareFn) 不会修改原数组, 返回排序好的数组
+ *      会把empty 当做 undefined
+ *      类数组对象 使用是会用 undefined 填充
+ *
+ * 38. splice(start, deleteCount, item1, item2, ...itemn) 方法通过移除或者替换已存在的元素和/或添加新元素就地改变一个数组的内容
+ *
+ * 39. toSpliced(start, deleteCount, item1, item2, ...itemn) 不会返回已经删除的元素, 返回的是删除或者添加后的 新数组, 不会修改原数组
+ *       会把 之前的 empty 变成 undefined
  */

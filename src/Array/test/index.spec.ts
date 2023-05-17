@@ -1612,4 +1612,93 @@ describe('array', () => {
       });
     });
   });
+
+  describe('[].splice', () => {
+    test('返回的是 被删除元素组成的数组', () => {
+      const base = [1, 2, 3, 4];
+      expect(base.splice(1, 2)).toEqual([2, 3]);
+      expect(base).toEqual([1, 4]);
+      expect([].splice(0)).toEqual([]);
+      // @ts-ignore 不传start 不会删除
+      expect([1, 2, 3].splice()).toEqual([]);
+    });
+
+    describe('start paramter, deleteCount default', () => {
+      const base = [1, 2, 3, 4];
+      test('0 <= start < length', () => {
+        expect([...base].splice(1)).toEqual([2, 3, 4]);
+        expect([...base].splice(3)).toEqual([4]);
+      });
+
+      test('start >= length', () => {
+        expect([...base].splice(4)).toEqual([]);
+        expect([...base].splice(5)).toEqual([]);
+      });
+
+      test('-length <= start < 0', () => {
+        expect([...base].splice(-1)).toEqual([4]);
+        expect([...base].splice(-3)).toEqual([2, 3, 4]);
+      });
+
+      test('-length > start, start 当做 0', () => {
+        expect([...base].splice(-5)).toEqual([1, 2, 3, 4]);
+      });
+
+      test('start undefind', () => {
+        // @ts-ignore 传undefined 会被视作 0
+        expect([...base].splice(undefined)).toEqual([1, 2, 3, 4]);
+      });
+    });
+
+    describe('start 1, deleteCount', () => {
+      test('0 < deleteCount < length - start', () => {
+        const base = [1, 2, 3, 4];
+        expect([...base].splice(1, 2)).toEqual([2, 3]);
+      });
+
+      test('deleteCount >= length -start', () => {
+        const base = [1, 2, 3, 4];
+        expect([...base].splice(1, 4)).toEqual([2, 3, 4]);
+      });
+
+      test('deleteCount < 0', () => {
+        const base = [1, 2, 3, 4];
+        expect([...base].splice(1, -1)).toEqual([]);
+        expect([...base].splice(1, 0)).toEqual([]);
+      });
+    });
+
+    test('添加元素', () => {
+      const base = [1, 2, 3, 4];
+      expect(base.splice(1, 0, 5, 6)).toEqual([]);
+      expect(base).toEqual([1, 5, 6, 2, 3, 4]);
+
+      const base1 = [1, 2, 3, 4];
+      expect(base1.splice(1, 2, 7, 8)).toEqual([2, 3]);
+      expect(base1).toEqual([1, 7, 8, 4]);
+    });
+
+    test('删除部分包含empty 返回的数组中也是 empty', () => {
+      expect([1, , , , 4].splice(1)).toEqual([, , , 4]);
+    });
+
+    test('arrayLike', () => {
+      const arrayLike = {
+        length: 3,
+        unrelated: 'foo',
+        0: 5,
+        2: 4,
+      };
+      const splice = [].splice;
+      // @ts-ignore
+      expect(splice.call(arrayLike, 1, 2, 3, 4)).toEqual([, 4]); // 是empty
+      expect(arrayLike).toEqual({
+        0: 5,
+        1: 3,
+        2: 4,
+        length: 3,
+        unrelated: 'foo',
+      });
+    });
+  });
 });
