@@ -21,7 +21,7 @@ describe('array', () => {
   });
 
   test('array[Symbol.spceise]', () => {
-    class LikeArray {
+    class arrayLike {
       constructor(public length: number) {
         this.length = length;
       }
@@ -29,15 +29,15 @@ describe('array', () => {
 
     const testArr = [1, 2, 3];
     testArr.constructor = {
-      [Symbol.species]: LikeArray,
+      [Symbol.species]: arrayLike,
     } as any;
 
     const arr1 = testArr.map((i) => i);
     const arr2 = testArr.filter((i) => i);
     const arr3 = testArr.concat([1, 2]);
-    expect(arr1).toBeInstanceOf(LikeArray);
-    expect(arr2).toBeInstanceOf(LikeArray);
-    expect(arr3).toBeInstanceOf(LikeArray);
+    expect(arr1).toBeInstanceOf(arrayLike);
+    expect(arr2).toBeInstanceOf(arrayLike);
+    expect(arr3).toBeInstanceOf(arrayLike);
   });
 
   test('array.at not change origin array', () => {
@@ -76,21 +76,21 @@ describe('array', () => {
       expect(result).toStrictEqual([1, 2, 3, 4, source]); // 没有展开
     });
 
-    test('likeArray [Symbol.isConcatSpreadable]', () => {
-      const likeArraySource = {
+    test('arrayLike [Symbol.isConcatSpreadable]', () => {
+      const arrayLikeSource = {
         0: 5,
         1: 6,
         2: 7,
         length: 3,
       } as any;
-      const result1 = origin.concat(likeArraySource);
+      const result1 = origin.concat(arrayLikeSource);
 
-      expect(result1).toStrictEqual([1, 2, 3, 4, likeArraySource]);
+      expect(result1).toStrictEqual([1, 2, 3, 4, arrayLikeSource]);
 
       // 类数组的 isConcatSpreadable 默认是 false
 
-      likeArraySource[Symbol.isConcatSpreadable] = true;
-      const result2 = origin.concat(likeArraySource);
+      arrayLikeSource[Symbol.isConcatSpreadable] = true;
+      const result2 = origin.concat(arrayLikeSource);
       expect(result2).toStrictEqual([1, 2, 3, 4, 5, 6, 7]);
     });
 
@@ -230,7 +230,7 @@ describe('array', () => {
       expect(kResult).toStrictEqual([0, 1, 2, 3, 4]);
     });
 
-    test('likeArray use entries', () => {
+    test('arrayLike use entries', () => {
       const entries = Array.prototype.entries;
       const likeArr = {
         0: 1,
@@ -287,7 +287,7 @@ describe('array', () => {
       expect(test).toHaveBeenCalledTimes(2);
     });
 
-    test('likeArray use every', () => {
+    test('arrayLike use every', () => {
       const every = Array.prototype.every;
       const likeArr = {
         0: 1,
@@ -356,7 +356,7 @@ describe('array', () => {
       });
     });
 
-    test('likeArray use fill', () => {
+    test('arrayLike use fill', () => {
       const fill = Array.prototype.fill;
       const likeArr = {
         0: 1,
@@ -438,7 +438,7 @@ describe('array', () => {
       expect(injectFn).toHaveBeenCalledTimes(2);
     });
 
-    test('likeArray', () => {
+    test('arrayLike', () => {
       const find = Array.prototype.find;
       const arrayLike = {
         length: 3,
@@ -480,7 +480,7 @@ describe('array', () => {
       expect(inFn).toBeCalledTimes(2);
     });
 
-    test('likeArray', () => {
+    test('arrayLike', () => {
       const findIndex = Array.prototype.findIndex;
       const arrayLike = {
         length: 3,
@@ -519,7 +519,7 @@ describe('array', () => {
       expect(injectFn).toHaveBeenCalledTimes(3);
     });
 
-    test('likeArray', () => {
+    test('arrayLike', () => {
       const findLast = Array.prototype.findLast;
       const arrayLike = {
         length: 3,
@@ -561,7 +561,7 @@ describe('array', () => {
       expect(inFn).toBeCalledTimes(1);
     });
 
-    test('likeArray', () => {
+    test('arrayLike', () => {
       const findLastIndex = Array.prototype.findLastIndex;
       const arrayLike = {
         length: 3,
@@ -588,7 +588,7 @@ describe('array', () => {
       expect(arr.flat()).toEqual([1, 2, 3, 4, [5, , 6]]);
     });
 
-    test('likeArray', () => {
+    test('arrayLike', () => {
       const flat = Array.prototype.flat;
       const arrayLike = {
         length: 5,
@@ -622,7 +622,7 @@ describe('array', () => {
       ]);
     });
 
-    test('likeArray', () => {
+    test('arrayLike', () => {
       const flatMap = Array.prototype.flatMap;
       const arrayLike = {
         length: 3,
@@ -658,7 +658,7 @@ describe('array', () => {
       expect(fn).toBeCalledTimes(3);
     });
 
-    test('likeArray', () => {
+    test('arrayLike', () => {
       const forEach = Array.prototype.forEach;
       const fn = vi.fn();
       const arrayLike = {
@@ -820,7 +820,7 @@ describe('array', () => {
       expect([, ...base].includes(undefined)).toBe(true);
     });
 
-    test('likeArray', () => {
+    test('arrayLike', () => {
       const arrayLike = {
         length: 3,
         1: 3,
@@ -882,7 +882,7 @@ describe('array', () => {
       expect([, ...base].indexOf(undefined)).toBe(-1);
     });
 
-    test('likeArray', () => {
+    test('arrayLike', () => {
       const arrayLike = {
         length: 3,
         1: 3,
@@ -932,7 +932,7 @@ describe('array', () => {
       expect(new Array(5).join('-')).toBe('----');
     });
 
-    test('likeArray', () => {
+    test('arrayLike', () => {
       const arrayLike = {
         length: 3,
         0: 2,
@@ -963,7 +963,7 @@ describe('array', () => {
       });
     });
 
-    test('likeArray', () => {
+    test('arrayLike', () => {
       const arrayLike = {
         length: 3,
         1: 3,
@@ -1027,7 +1027,7 @@ describe('array', () => {
       expect([undefined, ...base].lastIndexOf(undefined)).toBe(0);
     });
 
-    test('likeArray', () => {
+    test('arrayLike', () => {
       const arrayLike = {
         length: 3,
         1: 3,
@@ -1046,7 +1046,7 @@ describe('array', () => {
       expect(base.map((i) => i * 2)).toEqual([2, 4, 6, 8]);
     });
 
-    test('likeArray', () => {
+    test('arrayLike', () => {
       const arrayLike = {
         length: 3,
         1: 3,
@@ -1123,23 +1123,23 @@ describe('array', () => {
       expect([].pop()).toBe(undefined);
     });
 
-    test('likeArray', () => {
+    test('arrayLike', () => {
       const pop = Array.prototype.pop;
-      const likeArray = {
+      const arrayLike = {
         length: 3,
         0: 1,
         2: 2,
         4: 4,
       };
 
-      expect(pop.call(likeArray)).toBe(2);
-      expect(likeArray).toEqual({
+      expect(pop.call(arrayLike)).toBe(2);
+      expect(arrayLike).toEqual({
         length: 2,
         0: 1,
         4: 4,
       });
-      expect(pop.call(likeArray)).toBe(undefined);
-      expect(likeArray).toEqual({
+      expect(pop.call(arrayLike)).toBe(undefined);
+      expect(arrayLike).toEqual({
         length: 1,
         0: 1,
         4: 4,
@@ -1160,17 +1160,17 @@ describe('array', () => {
       expect(r === base.length).toBe(true);
     });
 
-    test('likeArray', () => {
+    test('arrayLike', () => {
       const push = Array.prototype.push;
-      const likeArray = {
+      const arrayLike = {
         length: 3,
         0: 1,
         2: 2,
         4: 4,
       };
 
-      expect(push.call(likeArray, 5)).toBe(4);
-      expect(likeArray).toEqual({
+      expect(push.call(arrayLike, 5)).toBe(4);
+      expect(arrayLike).toEqual({
         length: 4,
         0: 1,
         2: 2,
@@ -1178,14 +1178,158 @@ describe('array', () => {
         4: 4,
       });
 
-      expect(push.call(likeArray, 6)).toBe(5);
-      expect(likeArray).toEqual({
+      expect(push.call(arrayLike, 6)).toBe(5);
+      expect(arrayLike).toEqual({
         length: 5,
         0: 1,
         2: 2,
         3: 5,
         4: 6,
       });
+    });
+  });
+
+  describe('array.reduce', () => {
+    const base = [1, 2, 3, 4];
+    test('没有指定初始值, 会默认将 arr[0] 当做初始值, 迭代从 1开始', () => {
+      const fn = vi.fn();
+      const r = base.reduce((prev, curr) => {
+        fn();
+        return prev + curr;
+      });
+      expect(r).toBe(10);
+      expect(fn).toBeCalledTimes(3);
+    });
+
+    test('指定初始值, 从0开始迭代', () => {
+      const fn = vi.fn();
+      const r = base.reduce((prev, curr) => {
+        fn();
+        return prev + curr;
+      }, 0);
+      expect(r).toBe(10);
+      expect(fn).toBeCalledTimes(4);
+    });
+
+    test('数组长度为1 且不提供初始值 或者 数组长度为0 提供初始值, 是不会执行 cb', () => {
+      const fn = vi.fn();
+      [1].reduce((p) => {
+        fn();
+        return p;
+      });
+      expect(fn).toBeCalledTimes(0);
+
+      [].reduce((p) => {
+        fn();
+        return p;
+      }, 1);
+      expect(fn).toBeCalledTimes(0);
+    });
+
+    test('empty 不会执行cb', () => {
+      const fn = vi.fn();
+      [1, 2, , 3].reduce((p, c) => {
+        fn();
+        return (p || 0) + (c || 0);
+      });
+      expect(fn).toHaveBeenCalledTimes(2);
+    });
+
+    test('arrayLike', () => {
+      const arrayLike = {
+        length: 4,
+        0: 2,
+        1: 3,
+        2: 4,
+      };
+      const fn = vi.fn();
+      const reduce = Array.prototype.reduce;
+      expect(
+        reduce.call(
+          arrayLike,
+          (p, c) => {
+            fn();
+            return p + c;
+          },
+          0,
+        ),
+      ).toBe(9);
+      expect(fn).toBeCalledTimes(3);
+    });
+  });
+
+  describe('array.reduceRight', () => {
+    const base = [1, 2, 3, 4];
+    test('没有指定初始值, 会默认将 arr[length - 1] 当做初始值, 迭代从 length - 2开始', () => {
+      const fn = vi.fn();
+      const indexs: number[] = [];
+      const r = base.reduceRight((prev, curr, i) => {
+        fn();
+        indexs.push(i);
+        return prev + curr;
+      });
+      expect(r).toBe(10);
+      expect(indexs).toEqual([2, 1, 0]);
+      expect(fn).toBeCalledTimes(3);
+    });
+
+    test('指定初始值, 从length - 1开始迭代', () => {
+      const fn = vi.fn();
+      const indexs: number[] = [];
+      const r = base.reduceRight((prev, curr, i) => {
+        fn();
+        indexs.push(i);
+        return prev + curr;
+      }, 0);
+      expect(r).toBe(10);
+      expect(indexs).toEqual([3, 2, 1, 0]);
+      expect(fn).toBeCalledTimes(4);
+    });
+
+    test('数组长度为1 且不提供初始值 或者 数组长度为0 提供初始值, 是不会执行 cb', () => {
+      const fn = vi.fn();
+      [1].reduceRight((p) => {
+        fn();
+        return p;
+      });
+      expect(fn).toBeCalledTimes(0);
+
+      [].reduceRight((p) => {
+        fn();
+        return p;
+      }, 1);
+      expect(fn).toBeCalledTimes(0);
+    });
+
+    test('empty 不会执行cb', () => {
+      const fn = vi.fn();
+      [1, 2, , 3].reduceRight((p, c) => {
+        fn();
+        return (p || 0) + (c || 0);
+      });
+      expect(fn).toHaveBeenCalledTimes(2);
+    });
+
+    test('arrayLike', () => {
+      const arrayLike = {
+        length: 4,
+        0: 2,
+        1: 3,
+        2: 4,
+      };
+      const fn = vi.fn();
+      const reduceRight = Array.prototype.reduceRight;
+      expect(
+        reduceRight.call(
+          arrayLike,
+          (p, c) => {
+            fn();
+            return p + c;
+          },
+          0,
+        ),
+      ).toBe(9);
+      expect(fn).toBeCalledTimes(3);
     });
   });
 });

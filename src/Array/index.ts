@@ -272,4 +272,11 @@ testArr.concat([1, 2]); // NotAnArray { '0': 0, '1': 1, '2': 2, '3': 1, '4': 2, 
  *
  * 29. push(elem1, elem2 .... elemn) 方法将指定的元素添加到数组的末尾，并返回新的数组长度
  *
+ * 30. reduce((accumulator, currentValue, currentIndex, array), initial) 方法对数组中的每一个元素按照顺序执行一个提供 `reducer` 的函数, 每一次 运行 `reducer` 会将先前元素的计算结果作为参数传入, 最后将其结果汇总为单个返回值
+ *     第一次执行回调函数时, 不存在上一次的 执行结果, 会默认将数组的 索引为 0的元素 当做初始值, 否则就传入 初始值
+ *     empty 会跳过 reducer
+ *     不接受 thisArg 参数
+ *      如果数组为空且未提供 initialValue，则会抛出异常
+ *
+ * 31. reduceRight 和 reduce 执行 cb 的方向相反, 从右往左, 别的都一样
  */
