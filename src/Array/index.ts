@@ -322,4 +322,6 @@ testArr.concat([1, 2]); // NotAnArray { '0': 0, '1': 1, '2': 2, '3': 1, '4': 2, 
  * 41. toString 方法返回一个字符串，表示指定的数组及其元素
  *     Array 对象覆盖了 Object 的 toString 方法。数组的 toString 方法实际上在内部调用了 join() 方法来拼接数组并返回一个包含所有数组元素的字符串，元素之间用逗号分隔。
  *            如果 join 方法不可用或者不是函数，则会使用 Object.prototype.toString 来代替，并返回 [object Array]
+ *
+ * 42. unshift(ele1, ele2, ...elen) 方法将指定元素添加到数组的开头，并返回数组的新长度
  */

@@ -1760,4 +1760,31 @@ describe('array', () => {
       expect(toString.call({})).toBe('[object Object]');
     });
   });
+
+  describe('[].unshift', () => {
+    test('返回的是数组的最新长度', () => {
+      const arr = [1];
+      expect(arr.unshift(2, 3, 4)).toBe(4);
+      expect(arr).toEqual([2, 3, 4, 1]);
+    });
+
+    test('arrayLike', () => {
+      const arrayLike = {
+        length: 3,
+        unrelated: 'foo',
+        2: 4,
+      };
+      const unshift = [].unshift;
+      // @ts-ignore
+      expect(unshift.call(arrayLike, 1, 2, 3)).toBe(6);
+      expect(arrayLike).toEqual({
+        0: 1,
+        1: 2,
+        2: 3,
+        5: 4,
+        length: 6,
+        unrelated: 'foo',
+      });
+    });
+  });
 });
