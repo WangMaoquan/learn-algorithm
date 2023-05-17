@@ -289,4 +289,7 @@ testArr.concat([1, 2]); // NotAnArray { '0': 0, '1': 1, '2': 2, '3': 1, '4': 2, 
  *
  * 34. shift 删除数组中的第一个元素, 并将该值返回
  *     处理类数组对象时, 加入length 3 存在 0, 1, 2 的key  删除原本 0对应的value, 并将 1, 2对应的value 变成 0, 1 key 的值, length 变成2
+ *
+ * 35. slice(?start, ?end) 方法返回一个新的数组对象，这一对象是一个由 start 和 end 决定的原数组的浅拷贝（包括 start，不包括 end），其中 start 和 end 代表了数组元素的索引
+ *     会保留 empty
  */

@@ -1440,4 +1440,69 @@ describe('array', () => {
       });
     });
   });
+
+  describe('array.slice', () => {
+    const base = [1, 2, 3, 4];
+    test('返回值是一个数组', () => {
+      const r = base.slice();
+      expect(r === base).toBe(false);
+      expect(r).toEqual([1, 2, 3, 4]);
+    });
+
+    describe('start, end default length', () => {
+      test('0 < start < length', () => {
+        expect(base.slice(1)).toEqual([2, 3, 4]);
+      });
+
+      test('start >= length, 不提取任何元素', () => {
+        expect(base.slice(7)).toEqual([]);
+      });
+
+      test('0 > start >= -length', () => {
+        expect(base.slice(-1)).toEqual([4]);
+        expect(base.slice(-4)).toEqual([1, 2, 3, 4]);
+      });
+
+      test('start < -length, 会当做0', () => {
+        expect(base.slice(-5)).toEqual([1, 2, 3, 4]);
+      });
+    });
+
+    describe('start default 0, end', () => {
+      test('0 < end < length', () => {
+        expect(base.slice(0, 1)).toEqual([1]);
+      });
+
+      test('end >= length, 变成 length', () => {
+        expect(base.slice(0, 4)).toEqual([1, 2, 3, 4]);
+      });
+
+      test('0 > end >= -length, end 在规范化后小于或等于 start 不会截取', () => {
+        expect(base.slice(0, -1)).toEqual([1, 2, 3]);
+        expect(base.slice(0, -4)).toEqual([]);
+      });
+
+      test('end < -length, 会当做0', () => {
+        expect(base.slice(0, -5)).toEqual([]);
+      });
+    });
+
+    test('保留 empty', () => {
+      expect([, , , 2].slice(0, 2)).toEqual([, ,]);
+    });
+
+    test('arrayLike', () => {
+      const slice = Array.prototype.slice;
+      const arrayLike = {
+        length: 3,
+        0: 2,
+        2: 4,
+        3: 5,
+      };
+
+      expect(slice.call(arrayLike, 0, 1)).toEqual([2]);
+      const r = slice.call(arrayLike, 0, 2);
+      expect(r).toEqual([2, undefined]); // 这里其实是empty
+    });
+  });
 });
