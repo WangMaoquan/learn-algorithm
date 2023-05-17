@@ -1113,4 +1113,43 @@ describe('array', () => {
       expect(r3).toEqual([1]);
     });
   });
+
+  describe('array.pop', () => {
+    const base = [1, 2, 3, 4];
+    test('删除数组最后一个元素, 并返回', () => {
+      const arr = [...base];
+      expect(arr.pop()).toBe(4);
+      expect(arr).toEqual([1, 2, 3]);
+      expect([].pop()).toBe(undefined);
+    });
+
+    test('likeArray', () => {
+      const pop = Array.prototype.pop;
+      const likeArray = {
+        length: 3,
+        0: 1,
+        2: 2,
+        4: 4,
+      };
+
+      expect(pop.call(likeArray)).toBe(2);
+      expect(likeArray).toEqual({
+        length: 2,
+        0: 1,
+        4: 4,
+      });
+      expect(pop.call(likeArray)).toBe(undefined);
+      expect(likeArray).toEqual({
+        length: 1,
+        0: 1,
+        4: 4,
+      });
+
+      const plainObj = {};
+      expect(pop.call(plainObj)).toEqual(undefined);
+      expect(plainObj).toEqual({
+        length: 0,
+      });
+    });
+  });
 });

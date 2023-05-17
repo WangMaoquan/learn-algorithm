@@ -265,5 +265,8 @@ testArr.concat([1, 2]); // NotAnArray { '0': 0, '1': 1, '2': 2, '3': 1, '4': 2, 
  *      empty 会跳过 cb
  *
  * 27. Array.of(?element0, ?element1, ....elementn) 静态方法通过可变数量的参数创建一个新的 Array 实例，而不考虑参数的数量或类型
- *    
+ *
+ * 28. pop 方法从数组中删除最后一个元素，并返回该元素的值。此方法会更改数组的长度
+ *     类数组对象调用 pop 时 会读取 length 属性, 删除的其实 length - 1 对应的key 没有就返回 undefined
+ *      如果不存在 length 属性 会标准化 length 的值, 比如不存在 则变成0 负数也会变成 0
  */
