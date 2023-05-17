@@ -324,4 +324,14 @@ testArr.concat([1, 2]); // NotAnArray { '0': 0, '1': 1, '2': 2, '3': 1, '4': 2, 
  *            如果 join 方法不可用或者不是函数，则会使用 Object.prototype.toString 来代替，并返回 [object Array]
  *
  * 42. unshift(ele1, ele2, ...elen) 方法将指定元素添加到数组的开头，并返回数组的新长度
+ *
+ * 43. values  方法返回一个新的数组迭代器 (en-US)对象，该对象迭代数组中每个元素的值
+ *             Array.prototype.values() 是 Array.prototype[@@iterator]() 的默认实现
+ *             empty 会当做 undefined
+ *             数组迭代器对象应该是一次性使用的对象。不要重复使用它
+ *
+ * 44. with(index, value) 可以理解为 arr[index] = value 这样的替代, 但是不会改变原数组
+ *        负数索引会从数组末尾开始计数——即当 index < 0 时，会使用 index + array.length
+ *        规范化后的索引超出数组边界，会抛出 RangeError
+ *        永远不会产生 稀疏数组, 如果原数组是 则 empty 将变成 undefined
  */

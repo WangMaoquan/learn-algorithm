@@ -1787,4 +1787,55 @@ describe('array', () => {
       });
     });
   });
+
+  describe('[].values', () => {
+    const base = [1, 2, 3, 4];
+
+    test('数组的 Symbol.iterator 的默认实现是 values', () => {
+      expect([][Symbol.iterator] === [].values).toBe(true);
+    });
+    test('返回的是一个数组迭代器对象', () => {
+      const iterator = base.values();
+      expect(iterator).toHaveProperty('next');
+      expect(iterator.next()).toEqual({
+        value: 1,
+        done: false,
+      });
+    });
+
+    test('empty 会变成 undefined', () => {
+      const iterator = [, , ,].values();
+      expect(iterator.next()).toEqual({
+        value: undefined,
+        done: false,
+      });
+    });
+
+    test('arrayLike', () => {
+      const arrayLike = {
+        length: 3,
+        0: 'a',
+        1: 'b',
+        2: 'c',
+      };
+      const values = [].values;
+      expect(values.call(arrayLike).next()).toEqual({
+        value: 'a',
+        done: false,
+      });
+    });
+
+    test('values() 返回的可迭代对象是不可重复使用的', () => {
+      const iterator = base.values();
+      const v: number[] = [];
+      for (const i of iterator) {
+        v.push(i);
+      }
+      expect(v).toEqual([1, 2, 3, 4]);
+      for (const i of iterator) {
+        v.push(i);
+      }
+      expect(v).toEqual([1, 2, 3, 4]);
+    });
+  });
 });
