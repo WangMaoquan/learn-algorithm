@@ -1701,4 +1701,63 @@ describe('array', () => {
       });
     });
   });
+
+  describe('[].toLocaleString', () => {
+    const base = [1, 2, 3, 4];
+    test('返回值是一个字符串', () => {
+      expect(base.toLocaleString()).toBe('1,2,3,4');
+    });
+
+    test('数组中的undefined, null 会变成空串', () => {
+      expect([1, undefined, 2, null, 3].toLocaleString()).toBe('1,,2,,3');
+    });
+
+    test('empty 会当做 undefined 处理', () => {
+      expect([, , , , 1].toLocaleString()).toBe(',,,,1');
+    });
+
+    test('arrayLike', () => {
+      const arrayLike = {
+        length: 3,
+        0: 1,
+        1: 2,
+        2: 3,
+      };
+      const toLocaleString = [].toLocaleString;
+      expect(toLocaleString.call(arrayLike)).toBe('1,2,3');
+    });
+  });
+
+  describe('[].toString', () => {
+    const base = [1, 2, 3, 4];
+    test('返回值是一个字符串', () => {
+      expect(base.toString()).toBe('1,2,3,4');
+    });
+
+    test('其实调用的是 数组的join 方法', () => {
+      const c = [...base];
+      const originJoin = c.join;
+      c.join = () => {
+        return originJoin.call(c, '-');
+      };
+      expect(c.toString()).toBe('1-2-3-4');
+    });
+
+    test('当数组的join 不是一个方法时, 调用 Object.prototype.toString', () => {
+      const c = [...base];
+      // @ts-ignore
+      c.join = 1;
+      expect(c.toString()).toBe('[object Array]');
+    });
+
+    test('类数组对象, 如果存在join且是一个方法 就调用join, 否则使用的是 Object.prototype.toString', () => {
+      const toString = [].toString;
+      expect(
+        toString.call({
+          join: () => 1,
+        }),
+      ).toBe(1);
+      expect(toString.call({})).toBe('[object Object]');
+    });
+  });
 });

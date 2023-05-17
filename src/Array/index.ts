@@ -312,4 +312,14 @@ testArr.concat([1, 2]); // NotAnArray { '0': 0, '1': 1, '2': 2, '3': 1, '4': 2, 
  *
  * 39. toSpliced(start, deleteCount, item1, item2, ...itemn) 不会返回已经删除的元素, 返回的是删除或者添加后的 新数组, 不会修改原数组
  *       会把 之前的 empty 变成 undefined
+ *
+ * 40. toLocaleString(?locales, ?options) 方法返回一个字符串，表示数组中的所有元素
+ *      每个元素通过调用它们自己的 toLocaleString 方法转换为字符串，并且使用特定于语言环境的字符串（例如逗号“,”）分隔开
+ *      参数了解可以参考 https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Intl#locales_%E5%8F%82%E6%95%B0
+ *      数组中的 undefined, null 会变成空串
+ *      会把 empty 当做 undefined 处理
+ *
+ * 41. toString 方法返回一个字符串，表示指定的数组及其元素
+ *     Array 对象覆盖了 Object 的 toString 方法。数组的 toString 方法实际上在内部调用了 join() 方法来拼接数组并返回一个包含所有数组元素的字符串，元素之间用逗号分隔。
+ *            如果 join 方法不可用或者不是函数，则会使用 Object.prototype.toString 来代替，并返回 [object Array]
  */
