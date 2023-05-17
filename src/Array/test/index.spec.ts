@@ -1152,4 +1152,40 @@ describe('array', () => {
       });
     });
   });
+
+  describe('array.push', () => {
+    test('返回值是数组长度', () => {
+      const base = [1, 2, 3, 4];
+      const r = base.push(5);
+      expect(r === base.length).toBe(true);
+    });
+
+    test('likeArray', () => {
+      const push = Array.prototype.push;
+      const likeArray = {
+        length: 3,
+        0: 1,
+        2: 2,
+        4: 4,
+      };
+
+      expect(push.call(likeArray, 5)).toBe(4);
+      expect(likeArray).toEqual({
+        length: 4,
+        0: 1,
+        2: 2,
+        3: 5,
+        4: 4,
+      });
+
+      expect(push.call(likeArray, 6)).toBe(5);
+      expect(likeArray).toEqual({
+        length: 5,
+        0: 1,
+        2: 2,
+        3: 5,
+        4: 6,
+      });
+    });
+  });
 });
