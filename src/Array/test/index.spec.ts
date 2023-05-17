@@ -1401,4 +1401,43 @@ describe('array', () => {
       expect(toReversed.call(arrayLike)).toEqual([4, undefined, undefined]);
     });
   });
+
+  describe('array.shift', () => {
+    const base = [1, 2, 3, 4];
+    test('删除数组第一个一个元素, 并返回', () => {
+      const arr = [...base];
+      expect(arr.shift()).toBe(1);
+      expect(arr).toEqual([2, 3, 4]);
+      expect([].shift()).toBe(undefined);
+    });
+
+    test('arrayLike', () => {
+      const shift = Array.prototype.shift;
+      const arrayLike = {
+        length: 3,
+        0: 1,
+        2: 2,
+        4: 4,
+      };
+
+      expect(shift.call(arrayLike)).toBe(1);
+      expect(arrayLike).toEqual({
+        length: 2,
+        1: 2,
+        4: 4,
+      });
+      expect(shift.call(arrayLike)).toBe(undefined);
+      expect(arrayLike).toEqual({
+        length: 1,
+        0: 2,
+        4: 4,
+      });
+
+      const plainObj = {};
+      expect(shift.call(plainObj)).toEqual(undefined);
+      expect(plainObj).toEqual({
+        length: 0,
+      });
+    });
+  });
 });

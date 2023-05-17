@@ -286,4 +286,7 @@ testArr.concat([1, 2]); // NotAnArray { '0': 0, '1': 1, '2': 2, '3': 1, '4': 2, 
  *
  * 33. toReversed 也是反转原数组, 但是不会改变原数组
  *     会被empty 当做 undefined
+ *
+ * 34. shift 删除数组中的第一个元素, 并将该值返回
+ *     处理类数组对象时, 加入length 3 存在 0, 1, 2 的key  删除原本 0对应的value, 并将 1, 2对应的value 变成 0, 1 key 的值, length 变成2
  */
