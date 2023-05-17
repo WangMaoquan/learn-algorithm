@@ -279,4 +279,11 @@ testArr.concat([1, 2]); // NotAnArray { '0': 0, '1': 1, '2': 2, '3': 1, '4': 2, 
  *      如果数组为空且未提供 initialValue，则会抛出异常
  *
  * 31. reduceRight 和 reduce 执行 cb 的方向相反, 从右往左, 别的都一样
+ *
+ * 32. reverse 反转原数组 并返回同一数组的引用
+ *     会保留 empty
+ *     类数组对象使用 reverse 会删除某些key
+ *
+ * 33. toReversed 也是反转原数组, 但是不会改变原数组
+ *     会被empty 当做 undefined
  */

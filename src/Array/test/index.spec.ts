@@ -1332,4 +1332,73 @@ describe('array', () => {
       expect(fn).toBeCalledTimes(3);
     });
   });
+
+  describe('array.reverse', () => {
+    test('返回的是原本数组的索引', () => {
+      const base = [1, 2, 3, 4];
+      const result = base.reverse();
+      expect(base === result).toBe(true);
+      expect(result).toEqual([4, 3, 2, 1]);
+    });
+
+    test('会保留empty', () => {
+      const base = [, , 1, , 2];
+      expect(base.reverse()).toEqual([2, , 1, , ,]);
+    });
+
+    test('arrayLike', () => {
+      const arrayLike = {
+        length: 3,
+        unrelated: 'foo',
+        2: 4,
+        3: 3,
+      };
+      const reverse = Array.prototype.reverse;
+      // 2 会被删掉
+      expect(reverse.call(arrayLike)).toEqual({
+        length: 3,
+        unrelated: 'foo',
+        0: 4,
+        3: 3,
+      });
+    });
+  });
+
+  describe('array.toReversed', () => {
+    // 注意需要 node 版本20+ 而且现在ts 还没有 toReversed 类型定义
+    test.skip('不会改变原数组', () => {
+      const base = [1, 2, 3, 4];
+      // @ts-ignore
+      const r = base.toReversed();
+      expect(r === base).toBe(false);
+      expect(base).toEqual([1, 2, 3, 4]);
+      expect(r).toEqual([4, 3, 2, 1]);
+    });
+
+    test.skip('empty 会变成 undefined', () => {
+      const base = [, , 1, , 2];
+      // @ts-ignore
+      expect(base.toReversed()).toEqual([
+        2,
+        undefined,
+        1,
+        undefined,
+        undefined,
+      ]);
+    });
+
+    test.skip('', () => {
+      const arrayLike = {
+        length: 3,
+        unrelated: 'foo',
+        2: 4,
+        3: 3,
+      };
+
+      //@ts-ignore
+      const toReversed = Array.prototype.toReversed;
+      // 0 1 不存在 会变成 undefined
+      expect(toReversed.call(arrayLike)).toEqual([4, undefined, undefined]);
+    });
+  });
 });
