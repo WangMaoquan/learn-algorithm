@@ -40,7 +40,7 @@ describe('array', () => {
     expect(arr3).toBeInstanceOf(arrayLike);
   });
 
-  test('array.at not change origin array', () => {
+  test('[].at not change origin array', () => {
     const arr = [1, 2, 3];
     expect(arr.at(1)).toBe(2);
     expect(arr.at(-1)).toBe(3);
@@ -49,7 +49,7 @@ describe('array', () => {
     expect(arr.at(-4)).toBe(undefined);
   });
 
-  describe('array.concat not change origin array', () => {
+  describe('[].concat not change origin array', () => {
     const origin: (string | number)[] = [1, 2, 3, 4];
     test('concat not change origin', () => {
       const source = [5, 6, 7];
@@ -103,7 +103,7 @@ describe('array', () => {
     });
   });
 
-  describe('array.copyWithin can change origin Array', () => {
+  describe('[].copyWithin can change origin Array', () => {
     describe('only target parameter, start default 0, end default length - 1', () => {
       test('length > target >= 0', () => {
         const origin = [1, 2, 3, 4, 5];
@@ -119,7 +119,7 @@ describe('array', () => {
 
       test('target < 0', () => {
         const origin = [1, 2, 3, 4, 5];
-        const result = origin.copyWithin(-1, 0); // -1 + array.length
+        const result = origin.copyWithin(-1, 0); // -1 + [].length
         expect(result).toStrictEqual([1, 2, 3, 4, 1]);
 
         const origin1 = [1, 2, 3, 4, 5];
@@ -206,7 +206,7 @@ describe('array', () => {
     });
   });
 
-  describe('array.entries', () => {
+  describe('[].entries', () => {
     test('return a arrIterator', () => {
       const arr = [1, 2, 3, 4, 5];
       const arrIterator = arr.entries();
@@ -256,11 +256,15 @@ describe('array', () => {
     });
   });
 
-  describe('array.every', () => {
+  describe('[].every', () => {
     const base = [1, 2, 3, 4, 5];
     test('every return boolean', () => {
       const result = base.every((v) => v < 3);
       expect(result).toBe(false);
+    });
+
+    test('空数组总是返回true', () => {
+      expect([].every((i) => i > 4)).toBe(true);
     });
 
     test('every cb return false immediately stop', () => {
@@ -300,7 +304,7 @@ describe('array', () => {
     });
   });
 
-  describe('array.fill can change origin Array', () => {
+  describe('[].fill can change origin Array', () => {
     const base = [1, 2, 3, 4, 5];
     test('value any, start default, end default length', () => {
       const result = [...base].fill(6);
@@ -374,7 +378,7 @@ describe('array', () => {
     });
   });
 
-  describe('array.filter', () => {
+  describe('[].filter', () => {
     test('should return an array', () => {
       expect([].filter((v) => v)).toEqual([]);
     });
@@ -412,7 +416,7 @@ describe('array', () => {
     });
   });
 
-  describe('array.find', () => {
+  describe('[].find', () => {
     test('should return target or undefind', () => {
       expect([1, 2, 3, 4].find((v) => v === 1)).toBe(1);
       expect([1, 2, 3, 4].find((v) => v === 5)).toBe(undefined);
@@ -451,7 +455,7 @@ describe('array', () => {
     });
   });
 
-  describe('array.findIndex', () => {
+  describe('[].findIndex', () => {
     test('返回的是满足 cb 的第一个元素的下标', () => {
       const r = [1, 2, 3, 4, 1].findIndex((i) => i === 1);
       expect(r).not.toBe(4);
@@ -493,7 +497,7 @@ describe('array', () => {
     });
   });
 
-  describe('array.findLast', () => {
+  describe('[].findLast', () => {
     test('should return target or undefind', () => {
       expect([1, 2, 3, 4].findLast((v) => v === 1)).toBe(1);
       expect([1, 2, 3, 4].findLast((v) => v === 5)).toBe(undefined);
@@ -532,7 +536,7 @@ describe('array', () => {
     });
   });
 
-  describe('array.findLastIndex', () => {
+  describe('[].findLastIndex', () => {
     test('返回的是满足 cb 的第一个元素的下标', () => {
       const r = [1, 2, 3, 4, 1].findLastIndex((i) => i === 1);
       expect(r).not.toBe(0);
@@ -575,7 +579,7 @@ describe('array', () => {
     });
   });
 
-  describe('array.flat', () => {
+  describe('[].flat', () => {
     test('返回一个数组, 不会改变原数组', () => {
       const arr = [1, 2, 3, [4, 5, [6]]];
       expect(arr.flat()).toEqual([1, 2, 3, 4, 5, [6]]);
@@ -602,7 +606,7 @@ describe('array', () => {
     });
   });
 
-  describe('array.flatMap', () => {
+  describe('[].flatMap', () => {
     test('返回一个数组', () => {
       const arr = [1, 2, 3, 4];
       expect(arr.flatMap((i) => [i, i * 2])).toEqual([1, 2, 2, 4, 3, 6, 4, 8]);
@@ -635,7 +639,7 @@ describe('array', () => {
     });
   });
 
-  describe('array.forEach', () => {
+  describe('[].forEach', () => {
     test('返回值总是undefined', () => {
       expect([].forEach((i) => i)).toBe(undefined);
     });
@@ -787,7 +791,7 @@ describe('array', () => {
     });
   });
 
-  describe('array.includes', () => {
+  describe('[].includes', () => {
     const base = [1, 2, 3, 4];
     test('返回值是boolean', () => {
       expect(base.includes(1)).toBe(true);
@@ -836,7 +840,7 @@ describe('array', () => {
     });
   });
 
-  describe('array.indexOf', () => {
+  describe('[].indexOf', () => {
     const base = [1, 2, 3, 4];
     test('返回值是一个number', () => {
       expect(base.indexOf(1)).toBe(0);
@@ -913,7 +917,7 @@ describe('array', () => {
     });
   });
 
-  describe('array.join', () => {
+  describe('[].join', () => {
     const base = [1, 2, 3, 4];
     test('返回一个字符串', () => {
       expect(base.join()).toBe('1,2,3,4');
@@ -945,7 +949,7 @@ describe('array', () => {
     });
   });
 
-  describe('array.keys', () => {
+  describe('[].keys', () => {
     const base = [1, 2, 3, 4];
     test('返回的是一个数组迭代器对象', () => {
       const iterator = base.keys();
@@ -979,7 +983,7 @@ describe('array', () => {
     });
   });
 
-  describe('array.lastIndexOf', () => {
+  describe('[].lastIndexOf', () => {
     const base = [1, 2, 3, 4];
     test('返回值是一个数字', () => {
       expect(base.lastIndexOf(1)).toBe(0);
@@ -1040,7 +1044,7 @@ describe('array', () => {
     });
   });
 
-  describe('array.map', () => {
+  describe('[].map', () => {
     const base = [1, 2, 3, 4];
     test('返回一个数组', () => {
       expect(base.map((i) => i * 2)).toEqual([2, 4, 6, 8]);
@@ -1114,7 +1118,7 @@ describe('array', () => {
     });
   });
 
-  describe('array.pop', () => {
+  describe('[].pop', () => {
     const base = [1, 2, 3, 4];
     test('删除数组最后一个元素, 并返回', () => {
       const arr = [...base];
@@ -1153,7 +1157,7 @@ describe('array', () => {
     });
   });
 
-  describe('array.push', () => {
+  describe('[].push', () => {
     test('返回值是数组长度', () => {
       const base = [1, 2, 3, 4];
       const r = base.push(5);
@@ -1189,7 +1193,7 @@ describe('array', () => {
     });
   });
 
-  describe('array.reduce', () => {
+  describe('[].reduce', () => {
     const base = [1, 2, 3, 4];
     test('没有指定初始值, 会默认将 arr[0] 当做初始值, 迭代从 1开始', () => {
       const fn = vi.fn();
@@ -1258,7 +1262,7 @@ describe('array', () => {
     });
   });
 
-  describe('array.reduceRight', () => {
+  describe('[].reduceRight', () => {
     const base = [1, 2, 3, 4];
     test('没有指定初始值, 会默认将 arr[length - 1] 当做初始值, 迭代从 length - 2开始', () => {
       const fn = vi.fn();
@@ -1333,7 +1337,7 @@ describe('array', () => {
     });
   });
 
-  describe('array.reverse', () => {
+  describe('[].reverse', () => {
     test('返回的是原本数组的索引', () => {
       const base = [1, 2, 3, 4];
       const result = base.reverse();
@@ -1364,7 +1368,7 @@ describe('array', () => {
     });
   });
 
-  describe('array.toReversed', () => {
+  describe('[].toReversed', () => {
     // 注意需要 node 版本20+ 而且现在ts 还没有 toReversed 类型定义
     test.skip('不会改变原数组', () => {
       const base = [1, 2, 3, 4];
@@ -1402,7 +1406,7 @@ describe('array', () => {
     });
   });
 
-  describe('array.shift', () => {
+  describe('[].shift', () => {
     const base = [1, 2, 3, 4];
     test('删除数组第一个一个元素, 并返回', () => {
       const arr = [...base];
@@ -1441,7 +1445,7 @@ describe('array', () => {
     });
   });
 
-  describe('array.slice', () => {
+  describe('[].slice', () => {
     const base = [1, 2, 3, 4];
     test('返回值是一个数组', () => {
       const r = base.slice();
@@ -1503,6 +1507,109 @@ describe('array', () => {
       expect(slice.call(arrayLike, 0, 1)).toEqual([2]);
       const r = slice.call(arrayLike, 0, 2);
       expect(r).toEqual([2, undefined]); // 这里其实是empty
+    });
+  });
+
+  describe('[].some', () => {
+    const base = [1, 2, 3, 4];
+    test('返回值是一个boolean', () => {
+      expect(base.some((i) => i > 4)).toBe(false);
+      expect(base.some((i) => i > 2)).toBe(true);
+    });
+
+    test('空数组总是返回 false', () => {
+      expect([].some((i) => i > 4)).toBe(false);
+    });
+
+    test('empty 不会执行 cb', () => {
+      const fn = vi.fn();
+      [, , , 1, 2, 3].some((i) => {
+        fn();
+        return (i || 0) > 2;
+      });
+
+      expect(fn).toHaveBeenCalledTimes(3);
+    });
+
+    test('arrayLike', () => {
+      const arrayLike = {
+        length: 3,
+        0: 'a',
+        1: 'b',
+        2: 'c',
+      };
+      const some = [].some;
+      expect(some.call(arrayLike, (v) => v === 'a')).toBe(true);
+    });
+  });
+
+  describe('[].sort', () => {
+    test('返回的是原数组的索引地址', () => {
+      const base = [4, 3, 2, 1];
+      const r = base.sort();
+      expect(base === r).toBe(true);
+      expect(r).toEqual([1, 2, 3, 4]);
+    });
+
+    test('没有传 compareFn, 默认使用字符编码升序', () => {
+      const base = ['March', 'Jan', 'Feb', 'Dec'];
+      expect(base.sort()).toEqual(['Dec', 'Feb', 'Jan', 'March']);
+
+      const base1 = [1, 30, 4, 21, 100000];
+      expect(base1.sort()).toEqual([1, 100000, 21, 30, 4]);
+    });
+
+    describe('compareFn parameter', () => {
+      test('针对 number[], a - b, 升序', () => {
+        const base = [1, 4, 3, 2];
+        expect(base.sort((a, b) => a - b)).toEqual([1, 2, 3, 4]);
+      });
+      test('针对 number[], b - a, 降序', () => {
+        const base = [1, 4, 3, 2];
+        expect(base.sort((a, b) => b - a)).toEqual([4, 3, 2, 1]);
+      });
+
+      test('undefined 不会调用 cb', () => {
+        const callAB: number[][] = [];
+        const base = [undefined, undefined, 1, 3, 4, 2];
+        base.sort((a, b) => {
+          callAB.push([a || 0, b || 0]);
+          return (a || 0) - (b || 0);
+        });
+        expect(base).toEqual([1, 2, 3, 4, undefined, undefined]);
+        // 由此可见 sort 可能会对统一元素 执行多次
+        expect(callAB).toEqual([
+          [3, 1],
+          [4, 3],
+          [2, 4],
+          [2, 3],
+          [2, 1],
+        ]);
+      });
+
+      test('empty 会被移到最后', () => {
+        const base = [1, 2, undefined, , 3, 4];
+        expect(base.sort()).toEqual([1, 2, 3, 4, undefined, ,]);
+      });
+    });
+
+    test('arrayLike', () => {
+      const arrayLike = {
+        length: 3,
+        unrelated: 'foo',
+        0: 5,
+        2: 4,
+        3: 1,
+      };
+
+      const sort = [].sort;
+      expect(sort.call(arrayLike)).toEqual({
+        0: 4,
+        1: 5,
+        3: 1,
+        length: 3,
+        unrelated: 'foo',
+      });
     });
   });
 });

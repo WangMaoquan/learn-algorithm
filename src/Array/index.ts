@@ -292,4 +292,15 @@ testArr.concat([1, 2]); // NotAnArray { '0': 0, '1': 1, '2': 2, '3': 1, '4': 2, 
  *
  * 35. slice(?start, ?end) 方法返回一个新的数组对象，这一对象是一个由 start 和 end 决定的原数组的浅拷贝（包括 start，不包括 end），其中 start 和 end 代表了数组元素的索引
  *     会保留 empty
+ *
+ * 36. some(cb, thisArg) 方法测试数组中是否至少有一个元素通过了由提供的函数实现的测试。如果在数组中找到一个元素使得提供的函数返回 true，则返回 true；否则返回 false。它不会修改数组
+ *        如果cb 返回true 便会停止遍历
+ *        empty 不会执行cb
+ *
+ * 37. sort(compareFn) 方法就地对数组的元素进行排序，并返回对相同数组的引用。默认排序是将元素转换为字符串，然后按照它们的 UTF-16 码元值升序排序
+ *     compareFn(a,b) 返回值是一个数字, 决定了 a, b 的先后顺序
+ *     没有提供 compareFn, 会把所有非 undefined 元素 按照 UTF-16 码元值升序排序, undefined 元素 会放在最后, 并且undefined 不会执行 compareFn
+ *      empty 会保留, 且 在 undefined 的后面
+ *      sort() 方法会读取 this 的 length 属性。然后它会收集在 0 到 length - 1 范围内所有已存在的整数键属性，
+ *        对它们进行排序，然后写回。如果范围内存在缺失的属性，则相应的尾随属性将被删除，好像不存在的属性被排序到末尾一样
  */
