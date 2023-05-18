@@ -1,0 +1,10 @@
+{
+	"fast import vitest": {
+		"prefix": "ifv",
+		"scope": "javascript,typescript",
+		"body": [
+			"import { $1 } from 'vitest';"
+		],
+		"description": ""
+	}
+}
