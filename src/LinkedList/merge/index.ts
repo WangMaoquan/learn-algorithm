@@ -8,14 +8,17 @@
  * 输出：1->1->2->3->4->4
  */
 
-import { LinkHead, LinkNode } from '..';
+import { LinkHead, LinkNode, normalizeHead } from '..';
 
 // 主要的思路就是 链表指针的移动
-export const mergeLinkList = (linkList1: LinkNode, linkList2: LinkNode) => {
+export const mergeLinkList = <T>(
+  linkList1: LinkNode<T> | LinkHead<T>,
+  linkList2: LinkNode<T> | LinkHead<T>,
+) => {
   const result = new LinkHead();
   let current = result;
-  let l1: LinkNode | null = linkList1;
-  let l2: LinkNode | null = linkList2;
+  let l1: LinkNode | null = normalizeHead(linkList1);
+  let l2: LinkNode | null = normalizeHead(linkList2);
 
   while (l1 && l2) {
     if (l1.value <= l2.value) {

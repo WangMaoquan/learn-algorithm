@@ -11,11 +11,15 @@ export class LinkHead<T = any> {
   constructor() {}
 }
 
+export function normalizeHead<T>(linkList: LinkHead<T> | LinkNode<T>) {
+  return 'value' in linkList ? linkList : linkList.next;
+}
+
 export function printLinkList<T>(
   linkList: LinkNode<T> | LinkHead<T>,
   separator = '->',
 ) {
-  let current = 'value' in linkList ? linkList : linkList.next;
+  let current = normalizeHead(linkList);
   const result: T[] = [];
   while (current) {
     result.push(current.value);
