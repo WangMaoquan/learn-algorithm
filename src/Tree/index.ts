@@ -61,4 +61,19 @@ export class Tree<T = any> {
     this.postorderTraverse(root.right, cb);
     cb && cb(root.value);
   }
+  /**
+   * 树的层序遍历 其实就是 队列的进与出
+   * 每次进一个节点 都把 left right 进队列中
+   */
+  BFS(root: TreeNode, cb?: (value: T) => void) {
+    const queue: TreeNode[] = [];
+    queue.push(root);
+    while (queue.length !== 0) {
+      const top = queue[0];
+      cb && cb(top.value);
+      top.left && queue.push(top.left);
+      top.right && queue.push(top.right);
+      queue.shift();
+    }
+  }
 }

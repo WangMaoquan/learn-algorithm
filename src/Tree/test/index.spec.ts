@@ -86,4 +86,15 @@ describe('tree', () => {
       8, 9, 4, 10, 11, 5, 2, 12, 13, 6, 14, 15, 7, 3, 1,
     ]);
   });
+
+  test('BFS', () => {
+    const result: number[] = [];
+    const cb = (v: number) => result.push(v);
+
+    testTree.BFS(testTree.root, cb);
+
+    expect(result).toStrictEqual([
+      1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+    ]);
+  });
 });
