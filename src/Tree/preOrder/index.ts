@@ -24,12 +24,12 @@ export const preOrder = <T>(root: TreeNode<T>) => {
   const stack: TreeNode<T>[] = [];
   stack.push(root);
   while (stack.length) {
-    const top = stack.pop()!;
-    result.push(top.value);
+    const curr = stack.pop()!;
+    result.push(curr.value);
 
     // 因为是 左右 栈是先进后出 所以这里先push right 后push left
-    top.right && stack.push(top.right);
-    top.left && stack.push(top.left);
+    curr.right && stack.push(curr.right);
+    curr.left && stack.push(curr.left);
   }
   return result;
 };
