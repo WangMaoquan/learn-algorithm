@@ -23,23 +23,23 @@ export const threeSum = (nums: number[]) => {
     while (l < r) {
       const sum = nums[i] + nums[r] + nums[l];
       if (sum === 0) {
-        result.push([i, l, r]);
+        result.push([nums[i], nums[r], nums[l]]);
         r--;
         l++;
-        while (r < l && nums[r] === nums[r - 1]) {
+        while (l < r && nums[r] === nums[r - 1]) {
           r--;
         }
-        while (r < l && nums[l] === nums[l + 1]) {
+        while (l < r && nums[l] === nums[l + 1]) {
           l++;
         }
       } else if (sum < 0) {
         l++;
-        while (r < l && nums[l] === nums[l + 1]) {
+        while (l < r && nums[l] === nums[l + 1]) {
           l++;
         }
       } else {
         r--;
-        while (r < l && nums[l] === nums[l - 1]) {
+        while (l < r && nums[l] === nums[l - 1]) {
           r--;
         }
       }
