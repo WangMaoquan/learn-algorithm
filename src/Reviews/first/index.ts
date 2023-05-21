@@ -3,6 +3,8 @@
  * 使用map 空间换时间
  */
 
+import { LinkHead, LinkNode } from '../../LinkedList';
+
 export const twoSum = (nums: number[], target: number) => {
   const len = nums.length;
   const map = new Map<number, number>();
@@ -120,4 +122,49 @@ export function isValid(s: string): boolean {
     }
   }
   return !stack.length;
+}
+
+/**
+ * 合并有序链表
+ * https://leetcode.cn/problems/merge-two-sorted-lists/submissions/
+ */
+
+export function mergeTwoLists(
+  list1: LinkNode | null,
+  list2: LinkNode | null,
+): LinkNode | null {
+  if (!list1 && !list2) {
+    return null;
+  } else if (list1 && !list2) {
+    return list1;
+  } else if (!list1 && list2) {
+    return list2;
+  }
+  const result = new LinkHead();
+  let cur = result;
+  while (list1 && list2) {
+    if (list1.value > list2.value) {
+      cur.next = list2;
+      list2 = list2.next;
+    } else {
+      cur.next = list1;
+      list1 = list1.next;
+    }
+    cur = cur.next;
+  }
+
+  //  while(list1) {
+  //      cur.next = list1;
+  //      list1 = list1.next;
+  //      cur = cur.next
+  //  }
+
+  //  while(list2) {
+  //           cur.next = list2;
+  //      list2 = list2.next;
+  //      cur = cur.next
+  //  }
+  cur.next = list1 !== null ? list1 : list2;
+
+  return result.next;
 }

@@ -1,5 +1,12 @@
 import { describe, test, expect } from 'vitest';
-import { isValid, mergeTwoOrderedArrays, threeSum, twoSum } from '.';
+import {
+  isValid,
+  mergeTwoLists,
+  mergeTwoOrderedArrays,
+  threeSum,
+  twoSum,
+} from '.';
+import { LinkNode, printLinkList } from '@/LinkedList';
 
 describe('两数求和', () => {
   test('twosum', () => {
@@ -32,5 +39,28 @@ describe('有效括号', () => {
     expect(isValid('()')).toBe(true);
     expect(isValid('([)')).toBe(false);
     expect(isValid('')).toBe(true);
+  });
+});
+
+describe('合并有序链表', () => {
+  test('mergeTwoLists', () => {
+    const link1 = new LinkNode(1);
+    const link2 = new LinkNode(2);
+    const link3 = new LinkNode(3);
+    const link7 = new LinkNode(6);
+
+    const link4 = new LinkNode(4);
+    const link5 = new LinkNode(5);
+    const link6 = new LinkNode(6);
+
+    link1.next = link2;
+    link2.next = link3;
+    link3.next = link7;
+
+    link4.next = link5;
+    link5.next = link6;
+
+    const merged = mergeTwoLists(link1, link4);
+    expect(printLinkList(merged!)).toBe('1->2->3->4->5->6->6');
   });
 });
