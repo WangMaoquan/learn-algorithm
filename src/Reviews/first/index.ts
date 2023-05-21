@@ -90,3 +90,34 @@ export const threeSum = (nums: number[]) => {
   }
   return result;
 };
+
+/**
+ * 有效的括号
+ */
+
+const map = {
+  '{': '}',
+  '(': ')',
+  '[': ']',
+} as const;
+
+type MapType = typeof map;
+type MapKey = keyof MapType;
+
+export function isValid(s: string): boolean {
+  if (!s) {
+    return true;
+  }
+  const stack: MapType[MapKey][] = [];
+  for (let i = 0; i < s.length; i++) {
+    let str = s[i];
+    if (str === '{' || str === '[' || str === '(') {
+      stack.push(map[str]);
+    } else {
+      if (!stack.length || str !== stack.pop()) {
+        return false;
+      }
+    }
+  }
+  return !stack.length;
+}

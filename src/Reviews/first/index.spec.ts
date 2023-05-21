@@ -1,5 +1,5 @@
 import { describe, test, expect } from 'vitest';
-import { mergeTwoOrderedArrays, threeSum, twoSum } from '.';
+import { isValid, mergeTwoOrderedArrays, threeSum, twoSum } from '.';
 
 describe('两数求和', () => {
   test('twosum', () => {
@@ -24,5 +24,13 @@ describe('寻找数组中 三个数之和 为0', () => {
       [-1, -1, 2],
       [-1, 0, 1],
     ]);
+  });
+});
+
+describe('有效括号', () => {
+  test('is vaild', () => {
+    expect(isValid('()')).toBe(true);
+    expect(isValid('([)')).toBe(false);
+    expect(isValid('')).toBe(true);
   });
 });
