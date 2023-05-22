@@ -27,8 +27,8 @@ export const mergeTwoOrderedArrays = (
   num2: number[],
   n: number,
 ) => {
-  let n1 = num1.length - 1;
-  let n2 = num2.length - 1;
+  let n1 = m - 1;
+  let n2 = n - 1;
   let ne = m + n - 1;
 
   while (n1 >= 0 && n2 >= 0) {
