@@ -11,6 +11,7 @@ describe('判断字符串是否是回文串', () => {
     expect(isPalindromeUseTwo('strrts')).toBe(true);
     expect(isPalindromeUseTwo('strrts2')).toBe(false);
     expect(isPalindromeUseTwo('str2rts')).toBe(true);
+    expect(isPalindromeUseTwo('OP')).toBe(false);
   });
 
   test('给定一个字符串 在最多删除一个字符的情况下判断其 是否是回文字符串', () => {
