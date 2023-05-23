@@ -3,6 +3,7 @@ import {
   isValid,
   mergeTwoLists,
   mergeTwoOrderedArrays,
+  plusOne,
   threeSum,
   twoSum,
 } from '.';
@@ -65,5 +66,12 @@ describe('合并有序链表', () => {
 
     const merged = mergeTwoLists(link1, link4);
     expect(printLinkList(merged!)).toBe('1->2->3->4->5->6->6');
+  });
+});
+
+describe('给定一个由 整数 组成的 非空 数组所表示的非负整数，在该数的基础上加一。', () => {
+  test('plus one', () => {
+    expect(plusOne([1, 2, 3])).toEqual([1, 2, 4]);
+    expect(plusOne([9])).toEqual([1, 0]);
   });
 });

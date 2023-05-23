@@ -168,3 +168,19 @@ export function mergeTwoLists(
 
   return result.next;
 }
+
+/**
+ * 给定一个由 整数 组成的 非空 数组所表示的非负整数，在该数的基础上加一。
+ */
+
+export function plusOne(nums: number[]) {
+  for (let i = nums.length - 1; i >= 0; i--) {
+    if (nums[i] === 9) {
+      nums[i] = 0;
+    } else {
+      nums[i]++;
+      return nums;
+    }
+  }
+  return [1, ...nums];
+}
