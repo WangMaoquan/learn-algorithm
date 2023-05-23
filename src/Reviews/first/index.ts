@@ -184,3 +184,28 @@ export function plusOne(nums: number[]) {
   }
   return [1, ...nums];
 }
+
+/**
+ * 根据每日气温列表，请重新生成一个列表，对应位置的输出是需要再等待多久温度才会升高超过该日的天数。如果之后都不会升高，请在该位置用 0 来代替
+ */
+
+export function dailyTemperature(temperature: number[]) {
+  const len = temperature.length;
+  // 保存的是下标, 下标对应的 温度是一个递减的趋势
+  const stack: number[] = [];
+  const result = new Array<number>(len).fill(0);
+
+  for (let i = 0; i < len; i++) {
+    // 当我们 遍历到一个 温度比 栈顶的温度还大的温度时
+    // 就修改 result[top] = i = top 这就是改变的天数
+    while (
+      stack.length &&
+      temperature[i] > temperature[stack[stack.length - 1]]
+    ) {
+      const top = stack.pop()!;
+      result[top] = i - top;
+    }
+    stack.push(i);
+  }
+  return result;
+}

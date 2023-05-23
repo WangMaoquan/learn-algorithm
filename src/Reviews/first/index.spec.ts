@@ -1,5 +1,6 @@
 import { describe, test, expect } from 'vitest';
 import {
+  dailyTemperature,
   isValid,
   mergeTwoLists,
   mergeTwoOrderedArrays,
@@ -73,5 +74,13 @@ describe('给定一个由 整数 组成的 非空 数组所表示的非负整数
   test('plus one', () => {
     expect(plusOne([1, 2, 3])).toEqual([1, 2, 4]);
     expect(plusOne([9])).toEqual([1, 0]);
+  });
+});
+
+describe('根据每日气温列表，请重新生成一个列表，对应位置的输出是需要再等待多久温度才会升高超过该日的天数。如果之后都不会升高，请在该位置用 0 来代替', () => {
+  test('daily temperature', () => {
+    const temperature = [73, 74, 75, 71, 69, 72, 76, 73];
+    const result = dailyTemperature(temperature);
+    expect(result).toEqual([1, 1, 4, 2, 1, 1, 0, 0]);
   });
 });
