@@ -209,3 +209,18 @@ export function dailyTemperature(temperature: number[]) {
   }
   return result;
 }
+
+/**
+ *
+ * 编写一个函数，输入是一个无符号整数（以二进制串的形式），返回其二进制表达式中数字位数为 '1' 的个数（也被称为汉明重量)
+ */
+
+export function hammingWeight(n: number): number {
+  let result = 0;
+  for (const char of n.toString(2)) {
+    if (char === '1') {
+      result++;
+    }
+  }
+  return result;
+}

@@ -1,6 +1,7 @@
 import { describe, test, expect } from 'vitest';
 import {
   dailyTemperature,
+  hammingWeight,
   isValid,
   mergeTwoLists,
   mergeTwoOrderedArrays,
@@ -82,5 +83,11 @@ describe('根据每日气温列表，请重新生成一个列表，对应位置�
     const temperature = [73, 74, 75, 71, 69, 72, 76, 73];
     const result = dailyTemperature(temperature);
     expect(result).toEqual([1, 1, 4, 2, 1, 1, 0, 0]);
+  });
+});
+
+describe('编写一个函数，输入是一个无符号整数（以二进制串的形式），返回其二进制表达式中数字位数为 1 的个数（也被称为汉明重量)', () => {
+  test('hammingWeight', () => {
+    expect(hammingWeight(123)).toBe(6);
   });
 });
