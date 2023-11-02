@@ -75,7 +75,7 @@ export function removeDuplicates1(nums: number[]): number {
 
   let left = 2;
   for (let right = 2; right < nums.length; right++) {
-    if (nums[right] != nums[left - 2]) {
+    if (nums[right] !== nums[left - 2]) {
       nums[left++] = nums[right];
     }
   }
