@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { maxProfit } from '../first';
 import { maxProfit as maxProfitPro } from '../second';
 import { canJump } from '../trird';
+import { jump } from '../fourth';
 
 describe('2023-11-03', () => {
   it('first', () => {
@@ -459,5 +460,12 @@ describe('2023-11-03', () => {
     expect(r6).toBe(false);
 
     const r7 = 1;
+  });
+
+  it('fourth', () => {
+    const r = jump([2, 3, 1, 1, 4]);
+    expect(r).toBe(2);
+    const r1 = jump([0]);
+    expect(r1).toBe(0);
   });
 });
