@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { maxProfit } from '../first';
+import { maxProfit as maxProfitPro } from '../second';
 
 describe('2023-11-03', () => {
   it('first', () => {
@@ -19,5 +20,12 @@ describe('2023-11-03', () => {
     expect(r6).toBe(1);
     const r7 = maxProfit([3, 3, 5, 0, 0, 3, 1, 4]);
     expect(r7).toBe(4);
+  });
+
+  it('second', () => {
+    const r = maxProfitPro([7, 1, 5, 3, 6, 4]);
+    expect(r).toBe(7);
+    const r1 = maxProfitPro([1, 2, 3, 4, 5]);
+    expect(r1).toBe(4);
   });
 });
