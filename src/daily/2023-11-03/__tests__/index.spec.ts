@@ -15,5 +15,9 @@ describe('2023-11-03', () => {
     expect(r4).toBe(4);
     const r5 = maxProfit([2, 2, 5]);
     expect(r5).toBe(3);
+    const r6 = maxProfit([1, 2]);
+    expect(r6).toBe(1);
+    const r7 = maxProfit([3, 3, 5, 0, 0, 3, 1, 4]);
+    expect(r7).toBe(4);
   });
 });

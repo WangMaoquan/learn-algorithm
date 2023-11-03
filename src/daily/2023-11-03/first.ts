@@ -37,51 +37,39 @@
  */
 
 export function maxProfit(prices: number[]): number {
-  const stack: number[][] = []; /** [min max] 这样的 或者 [max] */
+  const stack: number[] = [];
   let diff = 0;
-  let diffFlag = false;
   for (let i = 0; i < prices.length; i++) {
-    const last = stack[1];
-    if (last) {
-      const [maxPrice, maxIndex] = last;
-      if (maxPrice < prices[i]) {
-        stack[1] = [prices[i], i];
-        if (prices[i] - stack[0][0] > diff) {
-          diffFlag = true;
-          diff = prices[i] - stack[0][0];
-        }
-      } else {
-        const [min] = stack[0];
-        if (min > prices[i]) {
-          if (i < prices.length - 2) {
-            stack.length = 0;
-            stack.push([prices[i], i]);
-          } else {
-            const rest = prices.slice(i);
-            if (rest.length === 2) {
-              const diff = stack[1][0] - stack[0][0];
-              const currDiff = rest[1] - rest[0];
-              return diff < currDiff ? currDiff : diff;
-            }
-          }
-        }
-      }
+    const [minPrice, maxPrice] = stack;
+    if (maxPrice !== undefined && maxPrice < prices[i]) {
+      stack[1] = prices[i];
+    } else if (minPrice !== undefined && minPrice > prices[i]) {
+      stack.length === 2 && (stack.length = 0);
+      stack[0] = prices[i];
+    } else if (maxPrice === undefined) {
+      stack.push(prices[i]);
+    }
+    if (stack.length === 2) {
+      const currDiff = stack[1] - stack[0];
+      diff = currDiff > diff ? currDiff : diff;
+    }
+  }
+  return diff;
+}
+
+// todo 优化
+export function maxProfit1(prices: number[]): number {
+  let diff = 0;
+  let min = 0;
+  for (let i = 1; i < prices.length; i++) {
+    if (prices[min] > prices[i]) {
+      min = i;
     } else {
-      const [min] = stack[0] || [];
-      if (min && min > prices[i]) {
-        stack[0] = [prices[i], i];
-      } else {
-        stack.push([prices[i], i]);
-        if (diff < prices[i] - stack[0][0]) {
-          diff = prices[i] - stack[0][0];
-          diffFlag = true;
-        }
+      const curDiff = prices[i] - prices[min];
+      if (curDiff > diff) {
+        diff = curDiff;
       }
     }
   }
-  if (!diffFlag) {
-    return 0;
-  } else {
-    return diff;
-  }
+  return diff;
 }
