@@ -27,6 +27,25 @@ n == citations.length
 
 export function hIndex(citations: number[]): number {
   const len = citations.length;
+  let h = 0;
+  const counts = citations.map(
+    (citation) => citations.filter((i) => i >= citation).length,
+  );
+  for (let i = 0; i < len; i++) {
+    const citation = citations[i];
+    if (citation !== 0) {
+      let count = counts[i];
+      let nh = count > citation ? citation : count;
+      if (nh > h) {
+        h = nh;
+      }
+    }
+  }
+  return h;
+}
+
+export function hIndex1(citations: number[]): number {
+  const len = citations.length;
   citations.sort((a, b) => a - b);
   for (let i = len - 1; i >= 0; i--) {
     if (citations[i] < len - i) {

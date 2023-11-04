@@ -16,5 +16,13 @@ describe('2023-11-04', () => {
     expect(r4).toBe(2);
     const r5 = hIndex([1, 1]);
     expect(r5).toBe(1);
+    const r6 = hIndex([0, 1, 0]);
+    expect(r6).toBe(1);
+    const r7 = hIndex([1, 2, 2]);
+    expect(r7).toBe(2);
+    const r8 = hIndex([1, 1, 3, 6, 7, 10, 7, 1, 8, 5, 9, 1, 4, 4, 3]);
+    expect(r8).toBe(6);
+    const r9 = hIndex([4, 4, 0, 0]);
+    expect(r9).toBe(2);
   });
 });
