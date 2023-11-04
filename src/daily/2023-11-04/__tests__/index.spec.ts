@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { hIndex } from '../first';
+import { RandomizedSet } from '../second';
 
 describe('2023-11-04', () => {
   it('first', () => {
@@ -24,5 +25,40 @@ describe('2023-11-04', () => {
     expect(r8).toBe(6);
     const r9 = hIndex([4, 4, 0, 0]);
     expect(r9).toBe(2);
+  });
+
+  it('second', () => {
+    type Keys = keyof Pick<RandomizedSet, 'insert' | 'remove' | 'getRandom'>;
+
+    function test(
+      inputStr: (Keys | 'RandomizedSet')[],
+      inputParams: number[][],
+    ) {
+      const r: (null | boolean | number)[] = [null];
+      const rs = new RandomizedSet();
+
+      for (let i = 1; i < inputStr.length; i++) {
+        const p = inputParams[i] as [number];
+        const method = inputStr[i] as Keys;
+        r.push(rs[method](...p));
+      }
+
+      return r;
+    }
+
+    const r = test(
+      [
+        'RandomizedSet',
+        'insert',
+        'insert',
+        'remove',
+        'insert',
+        'remove',
+        'getRandom',
+      ],
+      [[], [0], [1], [0], [2], [1], []],
+    );
+
+    expect(r).toEqual([null, true, true, true, true, true, 2]);
   });
 });
