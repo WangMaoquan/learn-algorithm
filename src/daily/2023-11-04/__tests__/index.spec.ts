@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { hIndex } from '../first';
 import { RandomizedSet } from '../second';
+import { productExceptSelf } from '../third';
 
 describe('2023-11-04', () => {
   it('first', () => {
@@ -60,5 +61,10 @@ describe('2023-11-04', () => {
     );
 
     expect(r).toEqual([null, true, true, true, true, true, 2]);
+  });
+
+  it('third', () => {
+    const r = productExceptSelf([1, 2, 3, 4]);
+    expect(r).toEqual([24, 12, 8, 6]);
   });
 });
