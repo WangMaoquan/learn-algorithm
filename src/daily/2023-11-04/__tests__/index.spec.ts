@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { hIndex } from '../first';
 import { RandomizedSet } from '../second';
 import { productExceptSelf } from '../third';
+import { romanToInt } from '../four';
 
 describe('2023-11-04', () => {
   it('first', () => {
@@ -66,5 +67,12 @@ describe('2023-11-04', () => {
   it('third', () => {
     const r = productExceptSelf([1, 2, 3, 4]);
     expect(r).toEqual([24, 12, 8, 6]);
+  });
+
+  it('fourth', () => {
+    const r = romanToInt('III');
+    expect(r).toBe(3);
+    const r1 = romanToInt('IV');
+    expect(r1).toBe(4);
   });
 });
