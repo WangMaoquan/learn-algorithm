@@ -26,16 +26,12 @@ n == citations.length
 */
 
 export function hIndex(citations: number[]): number {
-  // if (citations.length === 1) {
-  //   return citations[0] === 0 ? 0 : 1;
-  // }
-  // const mid = (citations.length - 1) / 2;
-  // let h = Infinity;
-  // for (let i = 0; i < citations.length; i++) {
-  //   const citation = citations[i];
-  //   if (citation >= mid && citation <= h) {
-  //     h = citation;
-  //   }
-  // }
-  // return isFinite(h) ? h : 0;
+  const len = citations.length;
+  citations.sort((a, b) => a - b);
+  for (let i = len - 1; i >= 0; i--) {
+    if (citations[i] < len - i) {
+      return len - i - 1;
+    }
+  }
+  return len;
 }

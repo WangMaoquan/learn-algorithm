@@ -14,5 +14,7 @@ describe('2023-11-04', () => {
     // 突然发现自己理解错题目了
     const r4 = hIndex([11, 15]);
     expect(r4).toBe(2);
+    const r5 = hIndex([1, 1]);
+    expect(r5).toBe(1);
   });
 });
