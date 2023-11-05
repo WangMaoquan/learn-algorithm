@@ -4,6 +4,7 @@ import { longestCommonPrefix } from '../second';
 import { strStr } from '../third';
 import { intToRoman } from '../fourth';
 import { isPalindrome } from '../fifth';
+import { isSubsequence } from '../sixth';
 
 describe('2023-11-05', () => {
   it('first', () => {
@@ -56,5 +57,22 @@ describe('2023-11-05', () => {
 
     const r4 = isPalindrome('0P');
     expect(r4).toBe(false);
+  });
+
+  it('sixth', () => {
+    const r = isSubsequence('abc', 'ahbgdc');
+    expect(r).toBe(true);
+
+    const r1 = isSubsequence('axc', 'ahbgdc');
+    expect(r1).toBe(false);
+
+    const r2 = isSubsequence('aaaaaa', 'bbaaaa');
+    expect(r2).toBe(false);
+
+    const r3 = isSubsequence(
+      'twn',
+      'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxtxxxxxxxxxxxxxxxxxxxxwxxxxxxxxxxxxxxxxxxxxxxxxxn',
+    );
+    expect(r3).toBe(true);
   });
 });
