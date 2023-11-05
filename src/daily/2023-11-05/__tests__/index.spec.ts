@@ -40,4 +40,21 @@ describe('2023-11-05', () => {
     const r2 = intToRoman(1994);
     expect(r2).toBe('MCMXCIV');
   });
+
+  it('fifth', () => {
+    const r = isPalindrome('A man, a plan, a canal: Panama');
+    expect(r).toBe(true);
+
+    const r1 = isPalindrome('race a car');
+    expect(r1).toBe(false);
+
+    const r2 = isPalindrome(' ');
+    expect(r2).toBe(true);
+
+    const r3 = isPalindrome('.,');
+    expect(r3).toBe(true);
+
+    const r4 = isPalindrome('0P');
+    expect(r4).toBe(false);
+  });
 });
