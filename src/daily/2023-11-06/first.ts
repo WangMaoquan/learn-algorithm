@@ -32,9 +32,9 @@ ransomNote 和 magazine 由小写英文字母组成
 // magazine
 
 export function canConstruct(ransomNote: string, magazine: string): boolean {
-  if (ransomNote.length !== magazine.length) {
-    return false;
-  }
+  // if (ransomNote.length !== magazine.length) {
+  //   return false;
+  // } // fourth 需要加这个
 
   function initSourceMap(magazine: string) {
     const sourceMap = new Map<string, number>(); // magazine 中每个字符能使用的次数
