@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { canConstruct } from '../first';
 import { isIsomorphic } from '../second';
 import { wordPattern } from '../third';
+import { isAnagram } from '../four';
 
 describe('2023-11-06', () => {
   it('first', () => {
@@ -33,5 +34,16 @@ describe('2023-11-06', () => {
     expect(r3).toBe(true);
     const r4 = wordPattern('aaa', 'aa aa aa aa');
     expect(r4).toBe(false);
+  });
+
+  it('fourth', () => {
+    const r = isAnagram('anagram', 'nagaram');
+    expect(r).toBe(true);
+
+    const r1 = isAnagram('rat', 'cat');
+    expect(r1).toBe(false);
+
+    const r2 = isAnagram('ab', 'b');
+    expect(r2).toBe(false);
   });
 });
