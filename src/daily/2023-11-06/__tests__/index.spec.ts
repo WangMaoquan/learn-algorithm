@@ -16,7 +16,7 @@ describe('2023-11-06', () => {
     const r = isIsomorphic('egg', 'add');
     expect(r).toBe(true);
     const r1 = isIsomorphic('foo', 'bar');
-    expect(r1).toBe(true);
+    expect(r1).toBe(false);
     const r2 = isIsomorphic('paper', 'title');
     expect(r2).toBe(true);
   });

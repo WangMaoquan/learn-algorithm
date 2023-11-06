@@ -32,7 +32,7 @@ s 和 t 由任意有效的 ASCII 字符组成
 
 // 题目的意思大概就是 s 是 abb 形式 / t 也必须是 abb 形式
 
-export function isIsomorphic(s: string, t: string): boolean {
+export function isIsomorphic1(s: string, t: string): boolean {
   function createIsomorphicArr(s: string) {
     const isomorphicMap = new Map<string, number[]>(); // char => indexs
 
@@ -60,4 +60,26 @@ export function isIsomorphic(s: string, t: string): boolean {
   return sArr.length === tArr.length
     ? sArr.join(',') === tArr.join(',')
     : false;
+}
+
+// 是否同构主要判断的其实就是 重复字符 的形式, 借助这个思路 (距离 abb 和 cdd) 我们可以维护 两个 map 时  map1[b] = d map2[d] = b
+// 即 我们只需要判断 map1[i] === t[i]  map2[i] === s[i]
+
+export function isIsomorphic(s: string, t: string): boolean {
+  const s2t: Record<string, string> = {};
+  const t2s: Record<string, string> = {};
+
+  for (let i = 0; i < s.length; i++) {
+    const sChar = s[i];
+    const tChar = t[i];
+    if (
+      (t2s[tChar] && sChar !== t2s[tChar]) ||
+      (s2t[sChar] && s2t[sChar] !== tChar)
+    ) {
+      return false;
+    }
+    s2t[sChar] = tChar;
+    t2s[tChar] = sChar;
+  }
+  return true;
 }
