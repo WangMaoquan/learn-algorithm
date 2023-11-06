@@ -66,6 +66,10 @@ export function isIsomorphic1(s: string, t: string): boolean {
 // 即 我们只需要判断 map1[i] === t[i]  map2[i] === s[i]
 
 export function isIsomorphic(s: string, t: string): boolean {
+  if (s.length !== t.length) {
+    return false;
+  }
+
   const s2t: Record<string, string> = {};
   const t2s: Record<string, string> = {};
 
