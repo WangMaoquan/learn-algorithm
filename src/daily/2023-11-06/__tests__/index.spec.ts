@@ -3,6 +3,7 @@ import { canConstruct } from '../first';
 import { isIsomorphic } from '../second';
 import { wordPattern } from '../third';
 import { isAnagram } from '../four';
+import { twoSum } from '../fifth';
 
 describe('2023-11-06', () => {
   it('first', () => {
@@ -45,5 +46,16 @@ describe('2023-11-06', () => {
 
     const r2 = isAnagram('ab', 'b');
     expect(r2).toBe(false);
+  });
+
+  it('fifth', () => {
+    const r = twoSum([2, 7, 11, 15], 9);
+    expect(r).toEqual([0, 1]);
+
+    const r1 = twoSum([3, 2, 4], 6);
+    expect(r1).toEqual([1, 2]);
+
+    const r2 = twoSum([3, 3], 6);
+    expect(r2).toEqual([0, 1]);
   });
 });
