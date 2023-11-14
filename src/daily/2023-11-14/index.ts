@@ -47,6 +47,11 @@ export function canCompleteCircuit(gas: number[], cost: number[]): number {
   let start = -1;
   let lastGas = 0;
 
+  if (len === 1) {
+    return gas[0] >= cost[0] ? 0 : -1;
+  }
+
+  // 可优化
   const validateStart = (curr: number, count: number = len): boolean => {
     if (start !== -1) {
       return false;
@@ -65,11 +70,10 @@ export function canCompleteCircuit(gas: number[], cost: number[]): number {
   // 找到起始
   for (let i = 0; i < gas.length; i++) {
     // 还需要判断是否能到下一个
-    if (gas[i] !== 0 && gas[i] >= cost[i] && validateStart(i)) {
+    if (gas[i] - cost[i] > 0 && validateStart(i)) {
       lastGas = 0;
       start = i;
     }
   }
-
   return start;
 }
