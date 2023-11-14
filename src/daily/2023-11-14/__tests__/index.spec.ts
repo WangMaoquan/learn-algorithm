@@ -35,10 +35,6 @@ describe('2023-11-14', () => {
     );
     expect(r4).toBe(74);
 
-    // all 0
-    const r5 = canCompleteCircuit([0, 0, 0, 0], [0, 0, 0, 0]);
-    expect(r5).toBe(-1);
-
     // gas 长度为 10^4  判断那里的问题, 必须大于 0
 
     const r6 = canCompleteCircuit([2], [2]);

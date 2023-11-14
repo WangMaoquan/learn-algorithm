@@ -42,7 +42,7 @@ cost.length == n
 
 */
 
-export function canCompleteCircuit(gas: number[], cost: number[]): number {
+export function canCompleteCircuit1(gas: number[], cost: number[]): number {
   const len = gas.length;
   let start = -1;
   let lastGas = 0;
@@ -76,4 +76,19 @@ export function canCompleteCircuit(gas: number[], cost: number[]): number {
     }
   }
   return start;
+}
+
+export function canCompleteCircuit(gas: number[], cost: number[]): number {
+  let start = 0,
+    currGas = 0,
+    restGas = 0;
+  for (let i = 0; i < gas.length; i++) {
+    currGas += gas[i] - cost[i];
+    restGas += gas[i] - cost[i];
+    if (currGas < 0) {
+      start = i + 1;
+      currGas = 0;
+    }
+  }
+  return restGas < 0 ? -1 : start;
 }
