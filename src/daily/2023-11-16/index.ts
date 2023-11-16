@@ -44,11 +44,31 @@ s 中 至少存在一个 单词
 3. 添加空格
 */
 
-export function reverseWords(s: string): string {
+export function reverseWords1(s: string): string {
   return s
     .trim()
     .split(' ')
     .filter((s) => s !== '')
     .reverse()
     .join(' ');
+}
+
+export function reverseWords(s: string): string {
+  let tempS = s.trim();
+  let end = tempS.length;
+  let r = '';
+  while (end) {
+    let pre = end - 1;
+    while (pre > 0 && tempS[pre] !== ' ') {
+      pre--;
+    }
+    let word = tempS.slice(pre === 0 ? pre : pre + 1, end);
+    r += word;
+    r += ' ';
+    while (pre > 0 && tempS[pre - 1] === ' ') {
+      pre--;
+    }
+    end = pre;
+  }
+  return r.trim();
 }
