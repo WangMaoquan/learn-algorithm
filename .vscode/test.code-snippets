@@ -23,7 +23,7 @@
     "description": ""
   },
   "fast expect toEqual": {
-    "prefix": "vetb",
+    "prefix": "vete",
     "body": ["const $1 = $2;", "expect($1).toEqual()"],
     "description": ""
   }
