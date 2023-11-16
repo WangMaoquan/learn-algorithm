@@ -1,10 +1,30 @@
 {
-	"fast import vitest": {
-		"prefix": "ifv",
-		"scope": "javascript,typescript",
-		"body": [
-			"import { $1 } from 'vitest';"
-		],
-		"description": ""
-	}
+  "fast import vitest": {
+    "prefix": "ifv",
+    "body": [
+      "import { describe, it, expect } from 'vitest';",
+      "",
+      "describe('$CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE', () => {});"
+    ],
+    "description": ""
+  },
+  "fast it": {
+    "prefix": "vit",
+    "body": [
+      "it('${1|first,second,trird,fourth,fifth|}', () => {",
+      "    ",
+      "})"
+    ],
+    "description": ""
+  },
+  "fast expect tobe": {
+    "prefix": "vetb",
+    "body": ["const $1 = $2;", "expect($1).toBe()"],
+    "description": ""
+  },
+  "fast expect toEqual": {
+    "prefix": "vetb",
+    "body": ["const $1 = $2;", "expect($1).toEqual()"],
+    "description": ""
+  }
 }
