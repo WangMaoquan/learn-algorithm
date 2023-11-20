@@ -1,5 +1,11 @@
 import { describe, it, expect } from 'vitest';
-import { candy, candyH2LSum, candyL2HSum, createRangeStores } from '..';
+import {
+  candy,
+  candyH2LSum,
+  candyL2HSum,
+  createRangeStores,
+  createRanges,
+} from '..';
 
 describe('2023-11-20', () => {
   it('createRangeStores', () => {
@@ -38,6 +44,40 @@ describe('2023-11-20', () => {
         l2h: [1],
       },
     ]);
+
+    const r4 = createRangeStores([1, 3, 4, 5, 2]);
+    expect(r4).toEqual([
+      {
+        h2l: [5, 2],
+        l2h: [1, 3, 4],
+      },
+    ]);
+  });
+
+  it('createRanges', () => {
+    const r = createRanges([1, 0, 2]);
+    expect(r).toEqual([
+      {
+        type: 'h2l',
+        ratings: [1],
+      },
+      {
+        type: 'l2h',
+        ratings: [0, 2],
+      },
+    ]);
+
+    const r1 = createRanges([1, 3, 4, 5, 2]);
+    expect(r1).toEqual([
+      {
+        type: 'l2h',
+        ratings: [1, 3, 4],
+      },
+      {
+        type: 'h2l',
+        ratings: [5, 2],
+      },
+    ]);
   });
 
   it('candyH2LSum', () => {
@@ -55,7 +95,7 @@ describe('2023-11-20', () => {
   });
 
   it('candyL2HSum', () => {
-    const r = candyL2HSum([1, 2, 87, 87], 3);
+    const r = candyL2HSum([1, 2, 87, 87]);
     expect(r).toEqual({
       sum: 7,
       c: 3,
@@ -76,5 +116,9 @@ describe('2023-11-20', () => {
     // todo 处理 maxCandy 可能不为 new Set().size
     const r3 = candy([1, 3, 2, 2, 1]);
     expect(r3).toBe(7);
+
+    // todo 处理 l2h bi h2l 长
+    const r4 = candy([1, 3, 4, 5, 2]);
+    expect(r4).toBe(11);
   });
 });

@@ -51,9 +51,63 @@ function createRangeStore(): RangeStore {
   };
 }
 
+interface Ranges {
+  ratings: number[];
+  type: 'l2h' | 'h2l';
+}
+
+export function createRanges(ratings: number[]): Ranges[] {
+  const r: Ranges[] = [];
+  let needBreak = false;
+  let i = 0;
+  while (i < ratings.length) {
+    let j = i;
+    if (needBreak) {
+      break;
+    }
+    let temp = [];
+    while (j < ratings.length - 1) {
+      if (ratings[j] <= ratings[j + 1]) {
+        temp.push(ratings[j]);
+        if (j + 1 === ratings.length - 1) {
+          temp.push(ratings[j + 1]);
+          needBreak = true;
+        }
+      } else {
+        break;
+      }
+      j++;
+    }
+    temp.length !== 0 &&
+      r.push({
+        type: 'l2h',
+        ratings: temp,
+      });
+    temp = [];
+    while (j < ratings.length - 1) {
+      if (ratings[j] >= ratings[j + 1]) {
+        temp.push(ratings[j]);
+        if (j + 1 === ratings.length - 1) {
+          temp.push(ratings[j + 1]);
+          needBreak = true;
+        }
+      } else {
+        break;
+      }
+      j++;
+    }
+    i = j;
+    temp.length !== 0 &&
+      r.push({
+        type: 'h2l',
+        ratings: temp,
+      });
+  }
+  return r;
+}
+
 export function createRangeStores(ratings: number[]): RangeStore[] {
   const r: RangeStore[] = [];
-  let h2l = false;
   let needBreak = false;
   let i = 0;
   while (i < ratings.length) {
@@ -92,7 +146,6 @@ export function createRangeStores(ratings: number[]): RangeStore[] {
       j++;
     }
     i = j;
-    h2l = false;
     r.push(rangeStore);
   }
   return r;
@@ -116,7 +169,7 @@ export const candyH2LSum = (ratings: number[], preCandy: number = 1) => {
   };
 };
 
-export const candyL2HSum = (ratings: number[], preCandy: number) => {
+export const candyL2HSum = (ratings: number[]) => {
   let sum = 0;
   let c = 1;
   for (let i = 0; i < ratings.length; i++) {
@@ -134,20 +187,47 @@ export const candyL2HSum = (ratings: number[], preCandy: number) => {
   };
 };
 
-export function candy(ratings: number[]): number {
-  const rangsStores = createRangeStores(ratings);
+export function candy1(ratings: number[]): number {
+  const rangs = createRanges(ratings);
   let r = 0;
   let pre = 1;
-  for (let i = rangsStores.length - 1; i >= 0; i--) {
-    const { l2h, h2l } = rangsStores[i];
-
-    let { sum: r1 = 0, c: maxCandy = 1 } =
-      h2l.length === 0 ? {} : candyH2LSum(h2l, pre);
-
-    let { sum: r2 = 0, c: prevCandy = 1 } =
-      l2h.length === 0 ? {} : candyL2HSum(l2h, maxCandy);
-    r = r + r1 + r2;
-    pre = prevCandy;
+  if (rangs[0].type === 'l2h') {
+    for (let i = 0; i < rangs.length; i++) {
+      const { type, ratings: rs } = rangs[i];
+      const { sum, c } =
+        type === 'h2l' ? candyH2LSum(rs, pre) : candyL2HSum(rs);
+      r += sum;
+      pre = c;
+    }
+  } else {
+    for (let i = rangs.length - 1; i >= 0; i--) {
+      const { type, ratings: rs } = rangs[i];
+      const { sum, c } =
+        type === 'h2l' ? candyH2LSum(rs, pre) : candyL2HSum(rs);
+      r += sum;
+      pre = c;
+    }
   }
+
   return r;
+}
+
+export function candy(ratings: number[]): number {
+  const candies: number[] = [];
+  candies[0] = 1;
+  // 保证右边高分孩子一定比左边低分孩子发更多的糖果
+  for (let i = 1, length = ratings.length; i < length; i++) {
+    if (ratings[i] > ratings[i - 1]) {
+      candies[i] = candies[i - 1] + 1;
+    } else {
+      candies[i] = 1;
+    }
+  }
+  // 保证左边高分孩子一定比右边低分孩子发更多的糖果
+  for (let i = ratings.length - 2; i >= 0; i--) {
+    if (ratings[i] > ratings[i + 1]) {
+      candies[i] = Math.max(candies[i], candies[i + 1] + 1);
+    }
+  }
+  return candies.reduce((pre, cur) => pre + cur);
 }
