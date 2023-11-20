@@ -69,21 +69,25 @@ export function createRangeStores(ratings: number[]): RangeStore[] {
     }
     while (j < ratings.length - 1) {
       if (ratings[j] <= ratings[j + 1]) {
-        if (h2l) {
-          break;
-        }
         rangeStore.l2h.push(ratings[j]);
         if (j + 1 === ratings.length - 1) {
           rangeStore.l2h.push(ratings[j + 1]);
           needBreak = true;
         }
       } else {
+        break;
+      }
+      j++;
+    }
+    while (j < ratings.length - 1) {
+      if (ratings[j] >= ratings[j + 1]) {
         rangeStore.h2l.push(ratings[j]);
         if (j + 1 === ratings.length - 1) {
           rangeStore.h2l.push(ratings[j + 1]);
           needBreak = true;
         }
-        h2l = true;
+      } else {
+        break;
       }
       j++;
     }

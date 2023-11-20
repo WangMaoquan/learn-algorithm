@@ -30,6 +30,14 @@ describe('2023-11-20', () => {
         l2h: [1, 2, 87, 87],
       },
     ]);
+
+    const r3 = createRangeStores([1, 3, 2, 2, 1]);
+    expect(r3).toEqual([
+      {
+        h2l: [3, 2, 2, 1],
+        l2h: [1],
+      },
+    ]);
   });
 
   it('分发糖果', () => {
@@ -42,5 +50,9 @@ describe('2023-11-20', () => {
     // 连续递增 糖果也需要递增, 当前代码没有实现
     const r2 = candy([1, 2, 87, 87, 87, 2, 1]);
     expect(r2).toBe(13);
+
+    // todo 处理 maxCandy 可能不为 new Set().size
+    const r3 = candy([1, 3, 2, 2, 1]);
+    expect(r3).toBe(7);
   });
 });
