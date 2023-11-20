@@ -31,28 +31,115 @@ n == ratings.length
 
 /*
   两个两个比较, 分高的糖果多
+  存在连续递增, 存在连续递减, 怎么定义 糖果?
+  
+  自己思路: 寻找 ratings 中 分数递增到递减的区间, 然后分别处理这些区间, 区间需要的最多的糖果数 其实是递减的长度
+
+  怎么寻找?
+
 */
-export function candy(ratings: number[]): number {
-  let start = 0;
-  let allCandy = 0;
-  let prevCandy = 1;
-  let init = false;
-  for (let i = 1; i < ratings.length; i++) {
-    if (ratings[start] > ratings[i]) {
-      if (!init) {
-        allCandy += 2;
-        init = true;
-      }
-      prevCandy = prevCandy === 2 ? 2 : 1;
-    } else {
-      if (!init) {
-        allCandy += 1;
-        init = true;
-      }
-      prevCandy = prevCandy === 2 ? 1 : 2;
+
+interface RangeStore {
+  l2h: number[]; // 递增
+  h2l: number[]; // 递减
+}
+
+function createRangeStore(): RangeStore {
+  return {
+    l2h: [],
+    h2l: [],
+  };
+}
+
+export function createRangeStores(ratings: number[]): RangeStore[] {
+  const r: RangeStore[] = [];
+  let h2l = false;
+  let needBreak = false;
+  let i = 0;
+  while (i < ratings.length) {
+    let j = i;
+    if (needBreak) {
+      break;
     }
-    allCandy += prevCandy;
+    const rangeStore = createRangeStore();
+    if (j === ratings.length - 1) {
+      rangeStore.h2l.push(ratings[j]);
+      r.push(rangeStore);
+      break;
+    }
+    while (j < ratings.length - 1) {
+      if (ratings[j] <= ratings[j + 1]) {
+        if (h2l) {
+          break;
+        }
+        rangeStore.l2h.push(ratings[j]);
+        if (j + 1 === ratings.length - 1) {
+          rangeStore.l2h.push(ratings[j + 1]);
+          needBreak = true;
+        }
+      } else {
+        rangeStore.h2l.push(ratings[j]);
+        if (j + 1 === ratings.length - 1) {
+          rangeStore.h2l.push(ratings[j + 1]);
+          needBreak = true;
+        }
+        h2l = true;
+      }
+      j++;
+    }
+    i = j;
+    h2l = false;
+    r.push(rangeStore);
+  }
+  return r;
+}
+
+const candySum = (ratings: number[], maxCandy: number) => {
+  let sum = 0;
+  let start = 0;
+  let min = ratings[0];
+  if (ratings.length === 1) {
+    return maxCandy;
+  }
+  if (ratings.length === 0) {
+    return 0;
+  }
+
+  while (start < ratings.length) {
+    if (ratings[start] < min) {
+      min = ratings[start];
+      --maxCandy;
+      sum += maxCandy;
+    } else if (
+      ratings[start + 1] !== undefined &&
+      ratings[start] === ratings[start + 1]
+    ) {
+      sum += 1;
+    } else {
+      sum += maxCandy;
+    }
     start++;
   }
-  return allCandy;
+  return sum;
+};
+
+export function candy(ratings: number[]): number {
+  const rangsStores = createRangeStores(ratings);
+  let r = 0;
+  for (let i = rangsStores.length - 1; i >= 0; i--) {
+    const { l2h, h2l } = rangsStores[i];
+
+    let maxCandy = new Set(h2l).size;
+    // 处理 递减
+    // 处理 存在 递减 然后递增的情况
+    maxCandy = maxCandy === 1 ? 2 : maxCandy;
+    const r1 = candySum(h2l, maxCandy);
+
+    // 处理递增
+    // 1. h2l 长度为 0
+    maxCandy = maxCandy === 0 ? new Set(l2h).size : maxCandy;
+    const r2 = candySum(l2h.slice().reverse(), maxCandy);
+    r = r + r1 + r2;
+  }
+  return r;
 }
