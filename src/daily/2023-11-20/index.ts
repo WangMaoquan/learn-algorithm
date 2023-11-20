@@ -98,52 +98,56 @@ export function createRangeStores(ratings: number[]): RangeStore[] {
   return r;
 }
 
-const candySum = (ratings: number[], maxCandy: number) => {
+export const candyH2LSum = (ratings: number[], preCandy: number = 1) => {
   let sum = 0;
-  let start = 0;
-  let min = ratings[0];
-  if (ratings.length === 1) {
-    return maxCandy;
-  }
-  if (ratings.length === 0) {
-    return 0;
-  }
-
-  while (start < ratings.length) {
-    if (ratings[start] < min) {
-      min = ratings[start];
-      --maxCandy;
-      sum += maxCandy;
-    } else if (
-      ratings[start + 1] !== undefined &&
-      ratings[start] === ratings[start + 1]
-    ) {
+  let c = preCandy;
+  for (let i = ratings.length - 1; i >= 0; i--) {
+    if (ratings[i + 1] && ratings[i] === ratings[i + 1]) {
       sum += 1;
+      --c;
     } else {
-      sum += maxCandy;
+      sum += c;
+      i !== 0 && ++c;
     }
-    start++;
   }
-  return sum;
+  return {
+    sum,
+    c,
+  };
+};
+
+export const candyL2HSum = (ratings: number[], preCandy: number) => {
+  let sum = 0;
+  let c = 1;
+  for (let i = 0; i < ratings.length; i++) {
+    if (ratings[i] === ratings[i - 1]) {
+      sum += 1;
+      c--;
+    } else {
+      sum += c;
+      i !== ratings.length - 1 && ++c;
+    }
+  }
+  return {
+    sum,
+    c,
+  };
 };
 
 export function candy(ratings: number[]): number {
   const rangsStores = createRangeStores(ratings);
   let r = 0;
+  let pre = 1;
   for (let i = rangsStores.length - 1; i >= 0; i--) {
     const { l2h, h2l } = rangsStores[i];
 
-    let maxCandy = new Set(h2l).size;
-    // 处理 递减
-    // 处理 存在 递减 然后递增的情况
-    maxCandy = maxCandy === 1 ? 2 : maxCandy;
-    const r1 = candySum(h2l, maxCandy);
+    let { sum: r1 = 0, c: maxCandy = 1 } =
+      h2l.length === 0 ? {} : candyH2LSum(h2l, pre);
 
-    // 处理递增
-    // 1. h2l 长度为 0
-    maxCandy = maxCandy === 0 ? new Set(l2h).size : maxCandy;
-    const r2 = candySum(l2h.slice().reverse(), maxCandy);
+    let { sum: r2 = 0, c: prevCandy = 1 } =
+      l2h.length === 0 ? {} : candyL2HSum(l2h, maxCandy);
     r = r + r1 + r2;
+    pre = prevCandy;
   }
   return r;
 }

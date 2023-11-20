@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { candy, createRangeStores } from '..';
+import { candy, candyH2LSum, candyL2HSum, createRangeStores } from '..';
 
 describe('2023-11-20', () => {
   it('createRangeStores', () => {
@@ -38,6 +38,28 @@ describe('2023-11-20', () => {
         l2h: [1],
       },
     ]);
+  });
+
+  it('candyH2LSum', () => {
+    const r = candyH2LSum([87, 2, 1]);
+    expect(r).toEqual({
+      sum: 6,
+      c: 3,
+    });
+
+    const r1 = candyH2LSum([3, 2, 2, 1]);
+    expect(r1).toEqual({
+      sum: 6,
+      c: 2,
+    });
+  });
+
+  it('candyL2HSum', () => {
+    const r = candyL2HSum([1, 2, 87, 87], 3);
+    expect(r).toEqual({
+      sum: 7,
+      c: 3,
+    });
   });
 
   it('分发糖果', () => {
