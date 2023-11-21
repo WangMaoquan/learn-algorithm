@@ -212,6 +212,10 @@ export function candy1(ratings: number[]): number {
   return r;
 }
 
+/**
+ * 切记不可左右一起考虑, 会炸
+ */
+
 export function candy(ratings: number[]): number {
   const candies: number[] = [];
   candies[0] = 1;
