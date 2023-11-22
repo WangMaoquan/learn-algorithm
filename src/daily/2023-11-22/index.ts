@@ -66,7 +66,7 @@ words[i].length <= maxWidth
  * 非最后一行
  * 其实保证一行在尽可能的 放更多的单词, 然后保证 改行的长度为 maxWidth
  * 填充使用空串, 保证 左右两端对齐
- * 也会存在 `s1    s2( s4... )   s3` 和 `s1   s2`, 空串填充中间, 超过两个时, 需要保证前面两两之间填充的空串比后面的多
+ * 也会存在 `s1    s2( s4... )   s3` 和 `s1   s2`, 空串填充中间, 超过两个时,  不能平均分 才需要保证左侧空格数大于右侧
  *
  * 最后一行
  * 单词之间空格为 1. 然后是左对齐, 也就是填充右边就好了
@@ -79,7 +79,7 @@ words[i].length <= maxWidth
  *
  */
 
-export const distributeWord = (
+export const distributeWords = (
   words: string[],
   maxWidth: number,
 ): string[][] => {
@@ -98,13 +98,18 @@ export const distributeWord = (
   return r;
 };
 
-export const oneWordRow = (words: string[], maxWidth: number): string => {
-  let r = words[0];
-  const appendEmptyStrCount = maxWidth - r.length;
-  for (let i = 0; i < appendEmptyStrCount; i++) {
+const createEmptyStr = (emptyStrCount: number): string => {
+  let r = '';
+  for (let i = 0; i < emptyStrCount; i++) {
     r += ' ';
   }
   return r;
+};
+
+export const oneWordRow = (words: string[], maxWidth: number): string => {
+  let r = words[0];
+  const appendEmptyStrCount = maxWidth - r.length;
+  return r + createEmptyStr(appendEmptyStrCount);
 };
 
 export const lastRow = (words: string[], maxWidth: number): string => {
@@ -116,11 +121,47 @@ export const lastRow = (words: string[], maxWidth: number): string => {
 };
 
 export const twoWordsRow = (words: string[], maxWidth: number): string => {
-  let r = words[0];
-  while (r.length + words[1].length < maxWidth) {
-    r += ' ';
-  }
-  return r + words[1];
+  const emptyStrCount = maxWidth - words[0].length - words[1].length;
+  return words[0] + createEmptyStr(emptyStrCount) + words[1];
 };
 
-export function fullJustify(words: string[], maxWidth: number): string[] {}
+export const moreWordsRow = (words: string[], maxWidth: number): string => {
+  let wordsLen = 0;
+  for (let i = 0; i < words.length; i++) {
+    wordsLen += words[i].length;
+  }
+  const needEmptyStrCount = maxWidth - wordsLen;
+  const preEmptyCount = Math.floor(needEmptyStrCount / (words.length - 1));
+  let restEmptyCount = needEmptyStrCount % (words.length - 1);
+
+  let r = '';
+  for (let i = 0; i < words.length; i++) {
+    r += words[i];
+    if (i !== words.length - 1) {
+      r += createEmptyStr(preEmptyCount);
+      if (restEmptyCount-- > 0) {
+        // 将多余的空格一个一个填充在前面, 保证左比右多
+        r += ' ';
+      }
+    }
+  }
+  return r;
+};
+
+export function fullJustify(words: string[], maxWidth: number): string[] {
+  const distributed = distributeWords(words, maxWidth);
+  const r: string[] = [];
+  for (let i = 0; i < distributed.length; i++) {
+    let d = distributed[i];
+    if (i === distributed.length - 1) {
+      r.push(lastRow(d, maxWidth));
+    } else if (d.length === 1) {
+      r.push(oneWordRow(d, maxWidth));
+    } else if (d.length === 2) {
+      r.push(twoWordsRow(d, maxWidth));
+    } else {
+      r.push(moreWordsRow(d, maxWidth));
+    }
+  }
+  return r;
+}

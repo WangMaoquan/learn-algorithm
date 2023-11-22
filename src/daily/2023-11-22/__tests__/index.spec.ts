@@ -1,15 +1,16 @@
 import { describe, it, expect } from 'vitest';
 import {
-  distributeWord,
+  distributeWords,
   fullJustify,
   lastRow,
+  moreWordsRow,
   oneWordRow,
   twoWordsRow,
 } from '..';
 
 describe('2023-11-22', () => {
-  it('distributeWord', () => {
-    const r = distributeWord(
+  it('distributeWords', () => {
+    const r = distributeWords(
       ['This', 'is', 'an', 'example', 'of', 'text', 'justification.'],
       16,
     );
@@ -19,7 +20,7 @@ describe('2023-11-22', () => {
       ['justification.'],
     ]);
 
-    const r1 = distributeWord(
+    const r1 = distributeWords(
       ['What', 'must', 'be', 'acknowledgment', 'shall', 'be'],
       16,
     );
@@ -29,7 +30,7 @@ describe('2023-11-22', () => {
       ['shall', 'be'],
     ]);
 
-    const r2 = distributeWord(
+    const r2 = distributeWords(
       [
         'Science',
         'is',
@@ -80,7 +81,19 @@ describe('2023-11-22', () => {
     expect(r).toBe('understand      well');
   });
 
-  it.skip('文本左右对齐', () => {
+  it('moreWordsRow', () => {
+    // 均分
+    const r = moreWordsRow(['This', 'is', 'an'], 16);
+    expect(r).toBe('This    is    an');
+
+    const r1 = moreWordsRow(['enough', 'to', 'explain', 'to'], 20);
+    expect(r1).toBe('enough to explain to');
+
+    const r2 = moreWordsRow(['a', 'computer.', 'Art', 'is'], 20);
+    expect(r2).toBe('a  computer.  Art is');
+  });
+
+  it('文本左右对齐', () => {
     const r = fullJustify(
       ['This', 'is', 'an', 'example', 'of', 'text', 'justification.'],
       16,
