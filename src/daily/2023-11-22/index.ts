@@ -115,7 +115,11 @@ export const oneWordRow = (words: string[], maxWidth: number): string => {
 export const lastRow = (words: string[], maxWidth: number): string => {
   let r = '';
   for (let i = 0; i < words.length; i++) {
-    r += words[i] + ' ';
+    if (i === words.length - 1) {
+      r += words[i];
+    } else {
+      r += words[i] + ' ';
+    }
   }
   return oneWordRow([r], maxWidth);
 };

@@ -61,6 +61,36 @@ describe('2023-11-22', () => {
       ['everything', 'else', 'we'],
       ['do'],
     ]);
+
+    const r3 = distributeWords(
+      [
+        'ask',
+        'not',
+        'what',
+        'your',
+        'country',
+        'can',
+        'do',
+        'for',
+        'you',
+        'ask',
+        'what',
+        'you',
+        'can',
+        'do',
+        'for',
+        'your',
+        'country',
+      ],
+      16,
+    );
+    expect(r3).toEqual([
+      ['ask', 'not', 'what'],
+      ['your', 'country', 'can'],
+      ['do', 'for', 'you', 'ask'],
+      ['what', 'you', 'can', 'do'],
+      ['for', 'your', 'country'],
+    ]);
   });
 
   it('oneWordRow', () => {
@@ -74,6 +104,9 @@ describe('2023-11-22', () => {
 
     const r1 = lastRow(['shall', 'be'], 16);
     expect(r1).toBe('shall be        ');
+
+    const r2 = lastRow(['for', 'your', 'country'], 16);
+    expect(r2).toBe('for your country');
   });
 
   it('twoWordsRow', () => {
@@ -144,6 +177,36 @@ describe('2023-11-22', () => {
       'a  computer.  Art is',
       'everything  else  we',
       'do                  ',
+    ]);
+
+    const r3 = fullJustify(
+      [
+        'ask',
+        'not',
+        'what',
+        'your',
+        'country',
+        'can',
+        'do',
+        'for',
+        'you',
+        'ask',
+        'what',
+        'you',
+        'can',
+        'do',
+        'for',
+        'your',
+        'country',
+      ],
+      16,
+    );
+    expect(r3).toEqual([
+      'ask   not   what',
+      'your country can',
+      'do  for  you ask',
+      'what  you can do',
+      'for your country',
     ]);
   });
 });
