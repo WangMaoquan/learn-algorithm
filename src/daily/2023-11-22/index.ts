@@ -115,4 +115,12 @@ export const lastRow = (words: string[], maxWidth: number): string => {
   return oneWordRow([r], maxWidth);
 };
 
+export const twoWordsRow = (words: string[], maxWidth: number): string => {
+  let r = words[0];
+  while (r.length + words[1].length < maxWidth) {
+    r += ' ';
+  }
+  return r + words[1];
+};
+
 export function fullJustify(words: string[], maxWidth: number): string[] {}

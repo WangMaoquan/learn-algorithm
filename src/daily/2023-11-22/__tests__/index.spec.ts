@@ -1,5 +1,11 @@
 import { describe, it, expect } from 'vitest';
-import { distributeWord, fullJustify, lastRow, oneWordRow } from '..';
+import {
+  distributeWord,
+  fullJustify,
+  lastRow,
+  oneWordRow,
+  twoWordsRow,
+} from '..';
 
 describe('2023-11-22', () => {
   it('distributeWord', () => {
@@ -67,6 +73,11 @@ describe('2023-11-22', () => {
 
     const r1 = lastRow(['shall', 'be'], 16);
     expect(r1).toBe('shall be        ');
+  });
+
+  it('twoWordsRow', () => {
+    const r = twoWordsRow(['understand', 'well'], 20);
+    expect(r).toBe('understand      well');
   });
 
   it.skip('文本左右对齐', () => {
