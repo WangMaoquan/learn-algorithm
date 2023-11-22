@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { distributeWord, fullJustify, lastRow, oneWordOneRow } from '..';
+import { distributeWord, fullJustify, lastRow, oneWordRow } from '..';
 
 describe('2023-11-22', () => {
   it('distributeWord', () => {
@@ -56,8 +56,8 @@ describe('2023-11-22', () => {
     ]);
   });
 
-  it('oneWordOneRow', () => {
-    const r = oneWordOneRow(['acknowledgment'], 16);
+  it('oneWordRow', () => {
+    const r = oneWordRow(['acknowledgment'], 16);
     expect(r).toBe('acknowledgment  ');
   });
 

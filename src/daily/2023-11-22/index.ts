@@ -98,7 +98,7 @@ export const distributeWord = (
   return r;
 };
 
-export const oneWordOneRow = (words: string[], maxWidth: number): string => {
+export const oneWordRow = (words: string[], maxWidth: number): string => {
   let r = words[0];
   const appendEmptyStrCount = maxWidth - r.length;
   for (let i = 0; i < appendEmptyStrCount; i++) {
@@ -112,7 +112,7 @@ export const lastRow = (words: string[], maxWidth: number): string => {
   for (let i = 0; i < words.length; i++) {
     r += words[i] + ' ';
   }
-  return oneWordOneRow([r], maxWidth);
+  return oneWordRow([r], maxWidth);
 };
 
 export function fullJustify(words: string[], maxWidth: number): string[] {}
