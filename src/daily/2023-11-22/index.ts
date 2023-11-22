@@ -98,12 +98,17 @@ export const distributeWords = (
   return r;
 };
 
+const count2StrMap: Record<number, string> = {};
+
 const createEmptyStr = (emptyStrCount: number): string => {
+  if (count2StrMap[emptyStrCount]) {
+    return count2StrMap[emptyStrCount]!;
+  }
   let r = '';
   for (let i = 0; i < emptyStrCount; i++) {
     r += ' ';
   }
-  return r;
+  return (count2StrMap[emptyStrCount] = r);
 };
 
 export const oneWordRow = (words: string[], maxWidth: number): string => {
