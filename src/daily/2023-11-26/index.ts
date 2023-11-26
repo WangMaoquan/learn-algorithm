@@ -41,6 +41,7 @@ export function merge(intervals: number[][]): number[][] {
 
   for (let i = 1; i < intervals.length; i++) {
     if (intervals[i][0] <= intervals[i - 1][1]) {
+      // 说明可以合并, intervals[i][0] 修改为 intervals[i - 1][0], 另一边就是最大的
       intervals[i] = [
         intervals[i - 1][0],
         Math.max(intervals[i - 1][1], intervals[i][1]),
