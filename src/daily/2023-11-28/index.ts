@@ -160,3 +160,152 @@ export function hammingWeight1(n: number): number {
   }
   return r;
 }
+
+/*
+
+给你一个 非空 整数数组 nums ，除了某个元素只出现一次以外，其余每个元素均出现两次。找出那个只出现了一次的元素。
+
+你必须设计并实现线性时间复杂度的算法来解决此问题，且该算法只使用常量额外空间。
+
+
+示例 1 ：
+
+输入：nums = [2,2,1]
+输出：1
+示例 2 ：
+
+输入：nums = [4,1,2,1,2]
+输出：4
+示例 3 ：
+
+输入：nums = [1]
+输出：1
+
+提示：
+
+1 <= nums.length <= 3 * 104
+-3 * 104 <= nums[i] <= 3 * 104
+除了某个元素只出现一次以外，其余每个元素均出现两次。
+
+*/
+
+/*
+
+如果不加 这个 条件: 你必须设计并实现线性时间复杂度的算法来解决此问题，且该算法只使用常量额外空间。
+
+方法很多
+
+这里要求 所以我们是用 位运算
+
+
+异或 ^
+
+1 ^ 1 = 0
+0 ^ any = any
+
+异或满足交换律和结合律
+
+a^b^a = b^a^a = b^(a^a) = b^0=b
+
+*/
+
+export function singleNumber(nums: number[]): number {
+  let r = 0;
+  for (let i = 0; i < nums.length; i++) {
+    r ^= nums[i];
+  }
+  return r;
+}
+
+/**
+
+给你一个整数数组 nums ，除某个元素仅出现 一次 外，其余每个元素都恰出现 三次 。请你找出并返回那个只出现了一次的元素。
+
+你必须设计并实现线性时间复杂度的算法且使用常数级空间来解决此问题。
+
+
+示例 1：
+
+输入：nums = [2,2,3,2]
+输出：3
+示例 2：
+
+输入：nums = [0,1,0,1,0,1,99]
+输出：99
+
+
+提示：
+
+1 <= nums.length <= 3 * 104
+-231 <= nums[i] <= 231 - 1
+nums 中，除某个元素仅出现 一次 外，其余每个元素都恰出现 三次
+
+*/
+
+// 这里 可以使用额外的空间
+export function singleNumberII(nums: number[]): number {
+  const map = new Map<number, number>();
+  for (const num of nums) {
+    map.set(num, (map.get(num) || 0) + 1);
+  }
+  let r = 0;
+  for (const [k, v] of map) {
+    if (v === 1) {
+      r = k;
+      break;
+    }
+  }
+  return r;
+}
+
+/*
+
+给你两个整数 left 和 right ，表示区间 [left, right] ，返回此区间内所有数字 按位与 的结果（包含 left 、right 端点）。
+
+
+
+示例 1：
+
+输入：left = 5, right = 7
+输出：4
+示例 2：
+
+输入：left = 0, right = 0
+输出：0
+示例 3：
+
+输入：left = 1, right = 2147483647
+输出：0
+
+
+提示：
+
+0 <= left <= right <= 231 - 1
+
+*/
+
+/*
+
+其实求的就是 left 和 right 对应位都是 1 的那个
+
+*/
+
+// 这种不能判断完全 因为中间的值 存在 0 所以 第三个测例没过
+export function rangeBitwiseAnd(left: number, right: number): number {
+  let leftStr = left.toString(2);
+  let rightStr = right.toString(2);
+  let len = leftStr.length > rightStr.length ? rightStr.length : leftStr.length;
+  let r = '0';
+
+  for (let i = len; i >= 0; i--) {
+    if (
+      leftStr[leftStr.length - i] === '1' &&
+      leftStr[leftStr.length - i] === rightStr[rightStr.length - i]
+    ) {
+      r = '1';
+      r = r.padEnd(i, '0');
+      break;
+    }
+  }
+  return parseInt(r, 2);
+}
