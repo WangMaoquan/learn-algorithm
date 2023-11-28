@@ -291,7 +291,7 @@ export function singleNumberII(nums: number[]): number {
 */
 
 // 这种不能判断完全 因为中间的值 存在 0 所以 第三个测例没过
-export function rangeBitwiseAnd(left: number, right: number): number {
+export function rangeBitwiseAnd1(left: number, right: number): number {
   let leftStr = left.toString(2);
   let rightStr = right.toString(2);
   let len = leftStr.length > rightStr.length ? rightStr.length : leftStr.length;
@@ -308,4 +308,17 @@ export function rangeBitwiseAnd(left: number, right: number): number {
     }
   }
   return parseInt(r, 2);
+}
+
+export function rangeBitwiseAnd(left: number, right: number): number {
+  let shift = 0;
+  while (left < right) {
+    if (left === 0) {
+      break;
+    }
+    left >>= 1;
+    right >>= 1;
+    ++shift;
+  }
+  return left << shift;
 }
