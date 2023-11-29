@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { isPalindrome, plusOne, trailingZeroes } from '..';
+import { isPalindrome, mySqrt, plusOne, trailingZeroes } from '..';
 
 describe('2023-11-29', () => {
   it('回文数', () => {
@@ -36,5 +36,13 @@ describe('2023-11-29', () => {
 
     const r2 = trailingZeroes(0);
     expect(r2).toBe(0);
+  });
+
+  it('x 的平方根 ', () => {
+    const r = mySqrt(4);
+    expect(r).toBe(2);
+
+    const r1 = mySqrt(8);
+    expect(r1).toBe(2);
   });
 });
