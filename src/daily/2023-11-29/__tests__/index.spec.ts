@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { isPalindrome, plusOne } from '..';
+import { isPalindrome, plusOne, trailingZeroes } from '..';
 
 describe('2023-11-29', () => {
   it('回文数', () => {
@@ -25,5 +25,16 @@ describe('2023-11-29', () => {
 
     const r3 = plusOne([9]);
     expect(r3).toEqual([1, 0]);
+  });
+
+  it('阶乘后的零', () => {
+    const r = trailingZeroes(3);
+    expect(r).toBe(0);
+
+    const r1 = trailingZeroes(5);
+    expect(r1).toBe(1);
+
+    const r2 = trailingZeroes(0);
+    expect(r2).toBe(0);
   });
 });
