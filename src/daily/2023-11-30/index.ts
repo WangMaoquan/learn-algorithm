@@ -106,7 +106,7 @@ points 中的所有点 互不相同
 
 */
 
-// 其实我们求得是 一次函数中的 a,b
+// 其实我们求得是 一次函数中的 a,b,水平x/y
 export function linearFunc([x1, y1]: number[], [x2, y2]: number[]) {
   let a = 0;
   let isXOrY = 0; // x 1, y 2
@@ -116,7 +116,8 @@ export function linearFunc([x1, y1]: number[], [x2, y2]: number[]) {
   } else {
     isXOrY = y2 === y1 ? 2 : x2 === x1 ? 1 : 0;
   }
-  return [a, isXOrY];
+  const b = y2 - a * x2;
+  return [a, b, isXOrY];
 }
 
 // 遍历 points 生成所有 两两点对应的 a,b
@@ -124,10 +125,12 @@ export function createPointsLinearFuncMap(points: number[][]) {
   const map = new Map<string, Set<number>>();
   for (let i = 0; i < points.length - 1; i++) {
     for (let j = i + 1; j < points.length; j++) {
-      const [a, isXOrY] = linearFunc(points[i], points[j]);
-      let key = `${a},${isXOrY}`;
+      const [a, b, isXOrY] = linearFunc(points[i], points[j]);
+      let key = `${a}`;
       if (a === 0) {
         key = `${key},${points[i][isXOrY - 1]}`;
+      } else {
+        key = `${key},${b}`;
       }
       if (map.has(key)) {
         // map.get(key)?.add(i);
@@ -141,12 +144,29 @@ export function createPointsLinearFuncMap(points: number[][]) {
   return map;
 }
 
-export function maxPoints(points: number[][]): number {
+export function maxPoints1(points: number[][]): number {
   let r = 1;
   const map = createPointsLinearFuncMap(points);
   for (const [k, v] of map) {
     if (v.size > r) {
       r = v.size;
+    }
+  }
+  return r;
+}
+
+// 其实不是精度的问题, 问题的根本在 我1,2 生成的斜率后生成的map, 再下次外层的循环应情况, 而不是继续保存
+export function maxPoints(points: number[][]): number {
+  let r = 1;
+  for (let i = 0; i < points.length; i++) {
+    let map = new Map();
+    for (let j = 0; j < points.length; j++) {
+      if (i === j) continue;
+      let k = (points[i][1] - points[j][1]) / (points[i][0] - points[j][0]);
+      map.set(k, map.has(k) ? map.get(k) + 1 : 2);
+    }
+    for (let val of map.values()) {
+      r = Math.max(r, val);
     }
   }
   return r;
