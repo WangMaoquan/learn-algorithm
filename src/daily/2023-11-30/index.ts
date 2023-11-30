@@ -123,7 +123,7 @@ export function createPointsLinearFuncMap(points: number[][]) {
   for (let i = 0; i < points.length - 1; i++) {
     for (let j = i + 1; j < points.length; j++) {
       const [a, b] = linearFunc(points[i], points[j]);
-      const key = a === 0 ? `${a}` : `${a},${b}`;
+      const key = `${a}`;
       if (map.has(key)) {
         // map.get(key)?.add(i);
         map.get(key)?.add(j);

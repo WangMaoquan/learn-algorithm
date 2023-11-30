@@ -36,7 +36,7 @@ describe('2023-11-30', () => {
     ]);
     expect(r).toMatchInlineSnapshot(`
       Map {
-        "1,0" => Set {
+        "1" => Set {
           0,
           1,
           2,
@@ -54,7 +54,7 @@ describe('2023-11-30', () => {
     ]);
     expect(r1).toMatchInlineSnapshot(`
       Map {
-        "0.5,0.5" => Set {
+        "0.5" => Set {
           0,
           1,
           2,
@@ -65,21 +65,18 @@ describe('2023-11-30', () => {
           5,
           4,
         },
-        "2,-1" => Set {
+        "2" => Set {
           0,
           4,
+          3,
         },
-        "-1,5" => Set {
+        "-1" => Set {
           1,
           3,
           4,
           5,
         },
-        "2,-7" => Set {
-          2,
-          3,
-        },
-        "-0.25,4.25" => Set {
+        "-0.25" => Set {
           2,
           5,
         },
@@ -94,6 +91,21 @@ describe('2023-11-30', () => {
     expect(r3).toMatchInlineSnapshot(`
       Map {
         "0" => Set {
+          0,
+          1,
+          2,
+        },
+      }
+    `);
+
+    const r4 = createPointsLinearFuncMap([
+      [-6, -1],
+      [3, 1],
+      [12, 3],
+    ]);
+    expect(r4).toMatchInlineSnapshot(`
+      Map {
+        "0.2222222222222222" => Set {
           0,
           1,
           2,
@@ -131,5 +143,13 @@ describe('2023-11-30', () => {
       [4, 0],
     ]);
     expect(r4).toBe(3);
+
+    // fix 精度问题
+    const r5 = maxPoints([
+      [-6, -1],
+      [3, 1],
+      [12, 3],
+    ]);
+    expect(r5).toBe(3);
   });
 });
