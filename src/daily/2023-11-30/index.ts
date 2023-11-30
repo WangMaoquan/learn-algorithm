@@ -109,12 +109,14 @@ points 中的所有点 互不相同
 // 其实我们求得是 一次函数中的 a,b
 export function linearFunc([x1, y1]: number[], [x2, y2]: number[]) {
   let a = 0;
+  let isXOrY = 0; // x 1, y 2
   // 排除垂直于 x轴 或者 y轴
   if (y2 - y1 !== 0 && x2 - x1 !== 0) {
     a = (y2 - y1) / (x2 - x1);
+  } else {
+    isXOrY = y2 === y1 ? 2 : x2 === x1 ? 1 : 0;
   }
-  const b = y2 - a * x2;
-  return [a, b];
+  return [a, isXOrY];
 }
 
 // 遍历 points 生成所有 两两点对应的 a,b
@@ -122,8 +124,11 @@ export function createPointsLinearFuncMap(points: number[][]) {
   const map = new Map<string, Set<number>>();
   for (let i = 0; i < points.length - 1; i++) {
     for (let j = i + 1; j < points.length; j++) {
-      const [a, b] = linearFunc(points[i], points[j]);
-      const key = `${a}`;
+      const [a, isXOrY] = linearFunc(points[i], points[j]);
+      let key = `${a},${isXOrY}`;
+      if (a === 0) {
+        key = `${key},${points[i][isXOrY - 1]}`;
+      }
       if (map.has(key)) {
         // map.get(key)?.add(i);
         map.get(key)?.add(j);

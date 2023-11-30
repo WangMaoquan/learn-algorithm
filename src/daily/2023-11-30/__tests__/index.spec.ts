@@ -16,16 +16,16 @@ describe('2023-11-30', () => {
 
   it('linearFunc', () => {
     const r = linearFunc([1, 1], [1, 4]);
-    expect(r).toEqual([0, 4]);
+    expect(r).toEqual([0, 1]);
 
     const r1 = linearFunc([1, 1], [4, 1]);
-    expect(r1).toEqual([0, 1]);
+    expect(r1).toEqual([0, 2]);
 
     const r2 = linearFunc([1, 4], [4, 1]);
-    expect(r2).toEqual([-1, 5]);
+    expect(r2).toEqual([-1, 0]);
 
     const r3 = linearFunc([4, 1], [1, 4]);
-    expect(r3).toEqual([-1, 5]);
+    expect(r3).toEqual([-1, 0]);
   });
 
   it('createPointsLinearFuncMap', () => {
@@ -36,7 +36,7 @@ describe('2023-11-30', () => {
     ]);
     expect(r).toMatchInlineSnapshot(`
       Map {
-        "1" => Set {
+        "1,0" => Set {
           0,
           1,
           2,
@@ -54,29 +54,35 @@ describe('2023-11-30', () => {
     ]);
     expect(r1).toMatchInlineSnapshot(`
       Map {
-        "0.5" => Set {
+        "0.5,0" => Set {
           0,
           1,
           2,
         },
-        "0" => Set {
+        "0,2,1" => Set {
           0,
           3,
+        },
+        "2,0" => Set {
+          0,
+          4,
+          3,
+        },
+        "0,1,1" => Set {
+          0,
           5,
-          4,
         },
-        "2" => Set {
-          0,
-          4,
-          3,
-        },
-        "-1" => Set {
+        "-1,0" => Set {
           1,
           3,
           4,
           5,
         },
-        "-0.25" => Set {
+        "0,2,3" => Set {
+          2,
+          4,
+        },
+        "-0.25,0" => Set {
           2,
           5,
         },
@@ -90,7 +96,7 @@ describe('2023-11-30', () => {
     ]);
     expect(r3).toMatchInlineSnapshot(`
       Map {
-        "0" => Set {
+        "0,1,4" => Set {
           0,
           1,
           2,
@@ -105,10 +111,54 @@ describe('2023-11-30', () => {
     ]);
     expect(r4).toMatchInlineSnapshot(`
       Map {
-        "0.2222222222222222" => Set {
+        "0.2222222222222222,0" => Set {
           0,
           1,
           2,
+        },
+      }
+    `);
+    const r5 = createPointsLinearFuncMap([
+      [3, 3],
+      [1, 4],
+      [1, 1],
+      [2, 1],
+      [2, 2],
+    ]);
+    expect(r5).toMatchInlineSnapshot(`
+      Map {
+        "-0.5,0" => Set {
+          0,
+          1,
+        },
+        "1,0" => Set {
+          0,
+          2,
+          4,
+        },
+        "2,0" => Set {
+          0,
+          3,
+        },
+        "0,1,1" => Set {
+          1,
+          2,
+        },
+        "-3,0" => Set {
+          1,
+          3,
+        },
+        "-2,0" => Set {
+          1,
+          4,
+        },
+        "0,2,1" => Set {
+          2,
+          3,
+        },
+        "0,1,2" => Set {
+          3,
+          4,
         },
       }
     `);
@@ -151,5 +201,15 @@ describe('2023-11-30', () => {
       [12, 3],
     ]);
     expect(r5).toBe(3);
+
+    // fix 平行线
+    const r6 = maxPoints([
+      [3, 3],
+      [1, 4],
+      [1, 1],
+      [2, 1],
+      [2, 2],
+    ]);
+    expect(r6).toBe(3);
   });
 });
