@@ -49,19 +49,37 @@ newInterval.length == 2
 1 3   3 4 
 
 2 5   6 7 
+
+总结一下: 
+
+插入位置很重要!!!!
+
 */
 
 export function insert(
   intervals: number[][],
   newInterval: number[],
 ): number[][] {
-  if (intervals.length === 0) {
+  const len = intervals.length;
+  if (len === 0) {
     return [newInterval];
+  }
+  if (intervals[len - 1][1] < newInterval[0]) {
+    return [...intervals, newInterval];
+  }
+  if (intervals[0][0] > newInterval[1]) {
+    return [newInterval, ...intervals];
   }
   const r: number[][] = [];
   for (let i = 0; i < intervals.length; i++) {
     if (intervals[i][1] < newInterval[0] || intervals[i][0] > newInterval[1]) {
       r.push(intervals[i]);
+      if (
+        intervals[i][1] < newInterval[0] &&
+        newInterval[1] < intervals[i + 1][0]
+      ) {
+        return [...r, newInterval, ...intervals.slice(i + 1)];
+      }
     } else {
       newInterval = [
         Math.min(intervals[i][0], newInterval[0]),
@@ -75,12 +93,6 @@ export function insert(
         r[r.length - 1] = [...newInterval];
       }
     }
-  }
-  if (r[r.length - 1][1] < newInterval[0]) {
-    r.push([...newInterval]);
-  }
-  if (r[0][0] > newInterval[1]) {
-    r.unshift([...newInterval]);
   }
   return r;
 }
