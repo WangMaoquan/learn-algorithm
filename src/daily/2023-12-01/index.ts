@@ -79,5 +79,8 @@ export function insert(
   if (r[r.length - 1][1] < newInterval[0]) {
     r.push([...newInterval]);
   }
+  if (r[0][0] > newInterval[1]) {
+    r.unshift([...newInterval]);
+  }
   return r;
 }
