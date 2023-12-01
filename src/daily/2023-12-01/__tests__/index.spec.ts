@@ -39,5 +39,12 @@ describe('2023-12-01', () => {
 
     const r4 = insert([[1, 5]], [2, 7]);
     expect(r4).toEqual([[1, 7]]);
+
+    // fix 遍历完但是没有插入
+    const r5 = insert([[1, 5]], [6, 8]);
+    expect(r5).toEqual([
+      [1, 5],
+      [6, 8],
+    ]);
   });
 });

@@ -76,5 +76,8 @@ export function insert(
       }
     }
   }
+  if (r[r.length - 1][1] < newInterval[0]) {
+    r.push([...newInterval]);
+  }
   return r;
 }
